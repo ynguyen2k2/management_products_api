@@ -1,6 +1,6 @@
 import pg from 'pg'
-import { env } from './enviroments'
-const { Pool } = pg()
+import { env } from './enviroments.js'
+const { Pool } = pg
 
 export const pool = new Pool
     ({
