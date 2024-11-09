@@ -1,9 +1,11 @@
 import express from 'express'
-import { env } from './config/enviroments.js'
-import { pool } from './config/postgresql.js'
+import { env } from '~/config/enviroments'
+import { pool } from '~/config/postgresql'
+import { APIs_V1 } from '~/routes/v1'
 const START_SERVER = () => {
     const app = express()
     app.use(express.json())
+    app.use('v1',APIs_V1)
     if (env.BUILD_MODE === 'production') {
         app.listen(process.env.PORT, () => {
             // eslint-disable-next-line no-console
@@ -27,7 +29,8 @@ const START_SERVER = () => {
 (async () => {
     try {
         START_SERVER();
-        // const client = new pool.connect()
+        const client = await pool.connect()
+
     } catch (error) {
         console.error(error)
     }
