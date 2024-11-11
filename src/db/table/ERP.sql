@@ -1,5 +1,5 @@
 -- Active: 1731071036952@@127.0.0.1@5432@management-product@public
-CREATE TYPE productAtributeType AS ENUM (
+CREATE TYPE productAtributeType AS ENUM IF not exists( 
   'color',
   'paintType',
   'internalCode'
@@ -26,9 +26,10 @@ CREATE TABLE "users" (
 
 CREATE TABLE "products" (
   "id" serial PRIMARY KEY,
-  "name" varchar,
+"name" varchar not null,
   "description" varchar,
   "cover" varchar,
+"slug" varchar
   "catagoryId" integer,
   "createdAt" timestamp with time zone default current_timestamp ,
    "updatedAt" timestamp default null
