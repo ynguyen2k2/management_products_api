@@ -1,21 +1,16 @@
 -- Active: 1731071036952@@127.0.0.1@5432@management-product@public
-CREATE TYPE IF NOT EXISTS productAttributeType AS ENUM(
+CREATE TYPE productAttributeType AS ENUM( 
     'color',
     'paintType',
     'internalCode'
 );
 
-CREATE TYPE IF NOT EXISTS componentAttributeType AS ENUM(
+CREATE TYPE componentAttributeType AS ENUM( 
     'internalCode',
     'color',
     'rawMaterial'
 );
 
-CREATE TYPE IF NOT EXISTS componentAttributeType AS ENUM(
-    'internalCode',
-    'color',
-    'rawMaterial'
-);
 
 CREATE TABLE IF NOT EXISTS "users" (
     "id" serial PRIMARY KEY,
