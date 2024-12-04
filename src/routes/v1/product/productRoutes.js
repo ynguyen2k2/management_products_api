@@ -7,16 +7,15 @@ import { productController } from '~/controller/product/productController'
 const Router = express.Router()
 
 Router.route('/')
-    .get((req,res) => {
+  .get((req, res) => {
     res.status(StatusCodes.OK).json({
-        message: "Note: API get list products"
+      message: 'Note: API get list products'
     })
-    })
-    .post(productValidation.createNew,productController.createNew)
-Router.route('/:id')
-    .get(productController.getDetails)
-    // update product
-    // .put(productValidation.update,productController.update)
+  })
+  .post(productValidation.createNew, productController.createNew)
+Router.route('/:id').get(productController.getDetails)
+// update product
+// .put(productValidation.update,productController.update)
 
 
 export const productRoute = Router

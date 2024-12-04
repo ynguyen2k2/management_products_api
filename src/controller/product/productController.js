@@ -13,7 +13,10 @@ const createNew = async (req, res, next) => {
 
 const getDetails = async(req,res,next) => {
     try {
-        const productId = req.param.id
+        const productId = req.params.id
+
+        const params = req.params
+
         const product = await productService.getDetails(productId)
         res.status(StatusCodes.OK).json(product)
     } catch (error) {
