@@ -23,6 +23,8 @@ const getDetails = async (productId) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const product = await productModel.getDetails(productId)
+
+    console.log('🚀 ~ file: productService.js:27 ~ product:', product)
     if (!product)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product not found!')
     return product
@@ -35,7 +37,7 @@ const update = async (productId, reqBody) => {
   try {
     const updateData = {
       ...reqBody,
-      updatedAt: Date.now().toLocaleString()
+      updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
     }
     const product = await productModel.update(productId, updateData)
     return product
@@ -43,6 +45,7 @@ const update = async (productId, reqBody) => {
     throw error
   }
 }
+
 
 export const productService = {
   createNew,
