@@ -30,8 +30,22 @@ const getDetails = async (productId) => {
     throw error
   }
 }
+const update = async (productId, reqBody) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const updateData = {
+      ...reqBody,
+      updatedAt: Date.now().toLocaleString()
+    }
+    const product = await productModel.update(productId, updateData)
+    return product
+  } catch (error) {
+    throw error
+  }
+}
 
 export const productService = {
   createNew,
-  getDetails
+  getDetails,
+  update
 }

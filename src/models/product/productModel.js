@@ -19,6 +19,8 @@ const validateBeforeCreate = async (data) => {
   })
 }
 
+const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
+
 const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
@@ -48,7 +50,7 @@ const createNew = async (data) => {
 const getDetails = async (id) => {
   // const result = await
   try {
-    console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
+    // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
 
     const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
     const client = await pool.connect()
@@ -60,8 +62,31 @@ const getDetails = async (id) => {
     throw new Error(error)
   }
 }
+const update = async (productId, updateData) => {
+  try {
+    Object.keys(updateData).forEach((fieldName) => {
+      if (INVALID_UPDATE_FIELDS.includes(fieldName))
+        delete updateData[fieldName]
+    })
+
+    const fieldNames = Object.keys(updateData)
+    const fieldValue = Object.values(updateData)
+
+    console.log('🚀 ~ file: productModel.js:75 ~ fieldValue:', fieldValue)
+
+    const updateQuery = `UPDATE products SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1;`
+    console.log('🚀 ~ file: productModel.js:78 ~ updateQuery:', updateQuery)
+    const client = await pool.connect()
+
+    const result = await client.query(updateQuery, [productId, ...fieldValue])
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
 export const productModel = {
   createNew,
-  getDetails
+  getDetails,
+  update
 }
