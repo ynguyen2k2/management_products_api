@@ -1,30 +1,39 @@
-import { StatusCodes } from "http-status-codes";
-import {productService} from "~/services/product/productService";
+import { StatusCodes } from 'http-status-codes'
+import { productService } from '~/services/product/productService'
 const createNew = async (req, res, next) => {
-    try {
-        const createProduct = await productService.createNew(req.body)
+  try {
+    const createProduct = await productService.createNew(req.body)
 
-        // console.log("🚀 ~ file: productController.js:7 ~ req.body:", req.body)
-        res.status(StatusCodes.CREATED).json(createProduct)
-    } catch (error) {
-        next(error)
-    }
+    // console.log("🚀 ~ file: productController.js:7 ~ req.body:", req.body)
+    res.status(StatusCodes.CREATED).json(createProduct)
+  } catch (error) {
+    next(error)
+  }
 }
 
-const getDetails = async(req,res,next) => {
-    try {
-        const productId = req.params.id
+const getDetails = async (req, res, next) => {
+  try {
+    const productId = req.params.id
 
-        const params = req.params
+    const product = await productService.getDetails(productId)
+    res.status(StatusCodes.OK).json(product)
+  } catch (error) {
+    next(error)
+  }
+}
 
-        const product = await productService.getDetails(productId)
-        res.status(StatusCodes.OK).json(product)
-    } catch (error) {
-        next(error)
-    }
+const update = async (req, res, next) => {
+  try {
+    const productId = req.params.id
+    const product = await productService.update(productId, req.body)
+    res.status(StatusCodes.OK).json(product)
+  } catch (error) {
+    next(error)
+  }
 }
 
 export const productController = {
-    createNew,
-    getDetails
+  createNew,
+  getDetails,
+  update
 }

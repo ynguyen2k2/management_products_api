@@ -2,7 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import { env } from '~/config/enviroments'
 import { APIs_V1 } from '~/routes/v1'
-// import { initDBTable ,dropAllTables }  from '~/db/table/index'
+import { initDBTable, dropAllTables } from '~/db/table/index'
 const START_SERVER = () => {
   const app = express()
 
@@ -29,9 +29,9 @@ const START_SERVER = () => {
     })
   }
 }
-(async () => {
+;(async () => {
   try {
-    // initDBTable();
+    // initDBTable()
     START_SERVER()
 
     // dropAllTables()

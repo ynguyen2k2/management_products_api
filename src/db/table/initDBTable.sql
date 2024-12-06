@@ -1,29 +1,27 @@
 -- Active: 1731071036952@@127.0.0.1@5432@management-product@public
-CREATE TYPE productAttributeType AS ENUM( 
+CREATE TYPE productattributetype AS ENUM( 
     'color',
-    'paintType',
-    'internalCode'
+    'painttype',
+    'internalcode'
 );
 
-CREATE TYPE componentAttributeType AS ENUM( 
-    'internalCode',
+CREATE TYPE componentattributetype AS ENUM( 
+    'internalcode',
     'color',
-    'rawMaterial'
+    'rawmaterial'
 );
 
 
 CREATE TABLE IF NOT EXISTS "users" (
     "id" serial PRIMARY KEY,
-    "firtName" varchar(50) not null,
-    "lastName" varchar(50) not null,
+    "firtname" varchar(50) not null,
+    "lastname" varchar(50) not null,
     "username" varchar(50) not null,
     "email" varchar(50) default null,
     "role" varchar not null,
     "avatar" varchar,
-    "createdAt" timestamp
-    with
-        time zone default current_timestamp,
-        "updatedAt" timestamp default null
+    "createdat" timestamp with time zone default current_timestamp,
+    "updatedat" timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS "products" (
@@ -32,199 +30,199 @@ CREATE TABLE IF NOT EXISTS "products" (
     "description" varchar,
     "cover" varchar,
     "slug" varchar,
-    "catagoryId" integer,
-    "createdAt" timestamp
+    "catagoryid" integer,
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "productAttributes" (
+CREATE TABLE IF NOT EXISTS "productattributes" (
     "id" serial PRIMARY KEY,
-    "type" productAttributeType,
+    "type" productattributetype,
     "value" varchar,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "productsSKU" (
+CREATE TABLE IF NOT EXISTS "productssku" (
     "id" serial PRIMARY KEY,
-    "productId" integer,
-    "colorAttributeId" integer,
-    "paintTypeAttributeId" integer,
-    "internalCodeAttribute" integer,
-    "createdAt" timestamp
+    "productid" integer,
+    "colorattributeid" integer,
+    "painttypeattributeid" integer,
+    "internalcodeattribute" integer,
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "componentAttributes" (
+CREATE TABLE IF NOT EXISTS "componentattributes" (
     "id" serial PRIMARY KEY,
-    "type" componentAttributeType,
+    "type" componentattributetype,
     "value" varchar,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS "components" (
     "id" serial PRIMARY KEY,
-    "productId" integer,
-    "colorAttributeId" integer,
-    "rawMaterailAttributeId" integer,
+    "productid" integer,
+    "colorattributeid" integer,
+    "rawmaterailattributeid" integer,
     "quatity" integer,
     "dimension" varchar,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS "departments" (
     "id" serial PRIMARY KEY,
     "name" varchar,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS "machines" (
     "id" serial PRIMARY KEY,
     "name" varchar,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS "operations" (
     "id" serial PRIMARY KEY,
     "name" varchar,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "quatityComponent" (
+CREATE TABLE IF NOT EXISTS "quatitycomponent" (
     "id" serial PRIMARY KEY,
-    "componentId" integer,
-    "productId" integer,
-    "orderItemsId" integer,
-    "departmentId" integer,
-    "machineId" integer,
-    "operationId" integer,
+    "componentid" integer,
+    "productid" integer,
+    "orderitemsid" integer,
+    "departmentid" integer,
+    "machineid" integer,
+    "operationid" integer,
     "quatity" integer,
-    "userImport" integer,
-    "dayImport" timestamp,
-    "createdAt" timestamp
+    "userimport" integer,
+    "dayimport" timestamp,
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "stepComponent" (
+CREATE TABLE IF NOT EXISTS "stepcomponent" (
     "id" serial PRIMARY KEY,
-    "componentId" integer,
-    "departmentId" integer,
-    "machineId" integer,
-    "operationId" integer,
+    "componentid" integer,
+    "departmentid" integer,
+    "machineid" integer,
+    "operationid" integer,
     "step" integer,
     "note" varchar,
-    "cycleTime" integer,
-    "quatityCycleTime" integer,
-    "workerQuatity" integer,
-    "createdAt" timestamp
+    "cycletime" integer,
+    "quatitycycletime" integer,
+    "workerquatity" integer,
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "orderDetails" (
+CREATE TABLE IF NOT EXISTS "orderdetails" (
     "id" serial PRIMARY KEY,
-    "userCreatedId" integer,
-    "customerId" integer,
-    "createdAt" timestamp
+    "usercreatedid" integer,
+    "customerid" integer,
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "orderItems" (
+CREATE TABLE IF NOT EXISTS "orderitems" (
     "id" serial PRIMARY KEY,
-    "orderDetailId" integer,
-    "productId" integer,
+    "orderdetailid" integer,
+    "productid" integer,
     "quatity" integer,
-    "createdAt" timestamp
+    "createdat" timestamp
     with
         time zone default current_timestamp,
-        "updatedAt" timestamp default null
+        "updatedat" timestamp default null
 );
 
-ALTER TABLE "productsSKU"
-ADD FOREIGN KEY ("productId") REFERENCES "products" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "productssku"
+ADD FOREIGN KEY ("productid") REFERENCES "products" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "productsSKU"
-ADD FOREIGN KEY ("colorAttributeId") REFERENCES "productAttributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "productssku"
+ADD FOREIGN KEY ("colorattributeid") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "productsSKU"
-ADD FOREIGN KEY ("paintTypeAttributeId") REFERENCES "productAttributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "productssku"
+ADD FOREIGN KEY ("painttypeattributeid") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "productsSKU"
-ADD FOREIGN KEY ("internalCodeAttribute") REFERENCES "productAttributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE "components"
-ADD FOREIGN KEY ("productId") REFERENCES "productsSKU" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "productssku"
+ADD FOREIGN KEY ("internalcodeattribute") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "components"
-ADD FOREIGN KEY ("colorAttributeId") REFERENCES "componentAttributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY ("productid") REFERENCES "productssku" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "components"
-ADD FOREIGN KEY ("rawMaterailAttributeId") REFERENCES "componentAttributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY ("colorattributeid") REFERENCES "componentattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("componentId") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "components"
+ADD FOREIGN KEY ("rawmaterailattributeid") REFERENCES "componentattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("productId") REFERENCES "productsSKU" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("componentid") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("orderItemsId") REFERENCES "orderItems" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("productid") REFERENCES "productssku" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("departmentId") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("orderitemsid") REFERENCES "orderitems" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("machineId") REFERENCES "machines" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("departmentid") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("operationId") REFERENCES "operations" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("machineid") REFERENCES "machines" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatityComponent"
-ADD FOREIGN KEY ("userImport") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("operationid") REFERENCES "operations" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "stepComponent"
-ADD FOREIGN KEY ("componentId") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "quatitycomponent"
+ADD FOREIGN KEY ("userimport") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "stepComponent"
-ADD FOREIGN KEY ("departmentId") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "stepcomponent"
+ADD FOREIGN KEY ("componentid") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "stepComponent"
-ADD FOREIGN KEY ("machineId") REFERENCES "machines" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "stepcomponent"
+ADD FOREIGN KEY ("departmentid") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "stepComponent"
-ADD FOREIGN KEY ("operationId") REFERENCES "operations" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "stepcomponent"
+ADD FOREIGN KEY ("machineid") REFERENCES "machines" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "orderItems"
-ADD FOREIGN KEY ("orderDetailId") REFERENCES "orderDetails" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "stepcomponent"
+ADD FOREIGN KEY ("operationid") REFERENCES "operations" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "orderItems"
-ADD FOREIGN KEY ("productId") REFERENCES "productsSKU" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "orderitems"
+ADD FOREIGN KEY ("orderdetailid") REFERENCES "orderdetails" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "orderDetails"
-ADD FOREIGN KEY ("userCreatedId") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "orderitems"
+ADD FOREIGN KEY ("productid") REFERENCES "productssku" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "orderdetails"
+ADD FOREIGN KEY ("usercreatedid") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -13,9 +13,10 @@ Router.route('/')
     })
   })
   .post(productValidation.createNew, productController.createNew)
-Router.route('/:id').get(productController.getDetails)
-// update product
-// .put(productValidation.update,productController.update)
+Router.route('/:id')
+  .get(productController.getDetails)
+  // update product
+  .patch(productValidation.update, productController.update)
 
 
 export const productRoute = Router
