@@ -46,9 +46,24 @@ const update = async (productId, reqBody) => {
   }
 }
 
+const deleteItem = async (productId) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const targetProduct = await productModel.findOneById(productId)
+    if (!targetProduct)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Product Not Found!')
+    await productModel.deleteOneById(productId)
+    return {
+      deleteResult: 'Product and all its properties are deleted successfully'
+    }
+  } catch (error) {
+    throw error
+  }
+}
 
 export const productService = {
   createNew,
   getDetails,
-  update
+  update,
+  deleteItem
 }

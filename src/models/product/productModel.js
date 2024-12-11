@@ -2,7 +2,14 @@ import { pool } from '~/config/postgresql'
 import Joi from 'joi'
 
 const PRODUCTION_COLLECTION_SCHEMA = Joi.object({
-  name: Joi.string().required().min(3).max(100).trim().strict(),
+  name: Joi.string().required().min(3).max(100).trim().strict().messages({
+    'any.required': 'Name is required',
+    'string.empty': 'Name is not allowed to be empty',
+    'string.min': 'Name length must be at least 3 characters long',
+    'string.max':
+      'Name length must be less than or equal to 50 characters long',
+    'string.trim': 'Name must not have leading or trailing whitespaces'
+  }),
   description: Joi.string()
     .default('Description of product')
     .min(3)
@@ -47,6 +54,19 @@ const createNew = async (data) => {
   }
 }
 
+const findOneById = async (id) => {
+  try {
+    const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
+    const client = await pool.connect()
+
+    const result = await client.query(getDetailsQuery, [id])
+    client.release()
+    return result.rows[0] || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 const getDetails = async (id) => {
   // const result = await
   try {
@@ -72,14 +92,24 @@ const update = async (productId, updateData) => {
     const fieldNames = Object.keys(updateData)
     const fieldValue = Object.values(updateData)
 
-    console.log('🚀 ~ file: productModel.js:75 ~ fieldValue:', fieldValue)
-
-    const updateQuery = `UPDATE products SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1;`
-    console.log('🚀 ~ file: productModel.js:78 ~ updateQuery:', updateQuery)
+    const updateQuery = `UPDATE products SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1 RETURNING * ;`
     const client = await pool.connect()
 
     const result = await client.query(updateQuery, [productId, ...fieldValue])
-    return result
+    client.release()
+    return result.rows[0]
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const deleteOneById = async (id) => {
+  try {
+    const deleteQuery = 'DELETE FROM products WHERE id = $1 RETURNING *'
+    const client = await pool.connect()
+    const result = await client.query(deleteQuery, [id])
+    client.release()
+    return result.rows[0]
   } catch (error) {
     throw new Error(error)
   }
@@ -87,6 +117,8 @@ const update = async (productId, updateData) => {
 
 export const productModel = {
   createNew,
+  findOneById,
   getDetails,
-  update
+  update,
+  deleteOneById
 }
