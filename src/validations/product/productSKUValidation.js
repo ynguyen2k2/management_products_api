@@ -4,9 +4,10 @@ import ApiError from '~/utils/ApiError'
 
 const createNew = async (req, res, next) => {
   const conrectCondition = Joi.object({
-    name: Joi.string().min(3).max(100).trim().strict(),
-    description: Joi.string().min(3).max(100).trim().strict(),
-    cover: Joi.string().min(3).trim()
+    productid: Joi.number().required().min(1).strict(),
+    colorattributeid: Joi.number().min(1).strict(),
+    painttypeattributeid: Joi.number.strict(),
+    internalcodeattibute: Joi.string().max(20).trim().required()
   })
   try {
     await conrectCondition.validateAsync(req.body, { abortEarly: false })
@@ -22,9 +23,10 @@ const createNew = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const conrectCondition = Joi.object({
-    name: Joi.string().min(3).max(100).trim().strict(),
-    description: Joi.string().min(3).max(100).trim().strict(),
-    cover: Joi.string().min(3).trim()
+    productid: Joi.number().min(1).strict(),
+    colorattributeid: Joi.number().min(1).strict(),
+    painttypeattributeid: Joi.number.strict(),
+    internalcodeattibute: Joi.string().max(20).trim()
   })
   try {
     await conrectCondition.validateAsync(req.body, {
@@ -40,7 +42,7 @@ const update = async (req, res, next) => {
   }
 }
 
-export const productValidation = {
+export const productSKUValidation = {
   createNew,
   update
 }

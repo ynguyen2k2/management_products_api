@@ -17,6 +17,6 @@ Router.route('/:id')
   .get(productController.getDetails)
   // update product
   .patch(productValidation.update, productController.update)
-
+  .delete(productController.deleteItem)
 
 export const productRoute = Router

@@ -32,8 +32,19 @@ const update = async (req, res, next) => {
   }
 }
 
+const deleteItem = async (req, res, next) => {
+  try {
+    const productId = req.params.id
+    const result = await productService.deleteItem(productId)
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const productController = {
   createNew,
   getDetails,
-  update
+  update,
+  deleteItem
 }
