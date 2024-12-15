@@ -3,8 +3,10 @@ import { StatusCodes } from 'http-status-codes'
 
 import { productValidation } from '~/validations/product/productValidation'
 import { productController } from '~/controller/product/productController'
+import { productSKURoute } from './productSKURoute'
 
 const Router = express.Router()
+Router.use('/sku', productSKURoute)
 
 Router.route('/')
   .get((req, res) => {
@@ -18,5 +20,6 @@ Router.route('/:id')
   // update product
   .patch(productValidation.update, productController.update)
   .delete(productController.deleteItem)
+
 
 export const productRoute = Router
