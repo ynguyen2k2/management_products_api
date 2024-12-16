@@ -1,23 +1,14 @@
 import { pool } from '~/config/postgresql'
 import Joi from 'joi'
+import { productModel } from './productModel'
+import ApiError from '~/utils/ApiError'
+import { StatusCodes } from 'http-status-codes'
 
 const PRODUCTION_COLLECTION_SCHEMA = Joi.object({
-  name: Joi.string().required().min(3).max(100).trim().strict().messages({
-    'any.required': 'Name is required',
-    'string.empty': 'Name is not allowed to be empty',
-    'string.min': 'Name length must be at least 3 characters long',
-    'string.max':
-      'Name length must be less than or equal to 50 characters long',
-    'string.trim': 'Name must not have leading or trailing whitespaces'
-  }),
-  description: Joi.string()
-    .default('Description of product')
-    .min(3)
-    .max(100)
-    .trim()
-    .strict(),
-  cover: Joi.string().min(3).trim(),
-  slug: Joi.string().required().min(3).trim().strict()
+  productId: Joi.number().required().min(1),
+  colorAttributeId: Joi.number().required().min(1),
+  paintTypeAttributeId: Joi.number().required(),
+  internalCodeAttribute: Joi.string().required().max(20).trim()
 })
 
 const validateBeforeCreate = async (data) => {
@@ -26,26 +17,54 @@ const validateBeforeCreate = async (data) => {
   })
 }
 
-const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
+// const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
+
+const findOneByField = async (field) => {
+  try {
+    const getDetailsQuery =
+      'SELECT * FROM  productssku WHERE internalcodeattribute = $1 '
+
+    const client = await pool.connect()
+    const result = await client.query(getDetailsQuery, [field])
+    client.release()
+    return result.rows[0] || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
 const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
+    const {
+      productId,
+      colorAttributeId,
+      paintTypeAttributeId,
+      internalCodeAttribute
+    } = validData
 
-    console.log('🚀 ~ file: productModel.js:23 ~ validData:', validData)
+    console.log('🚀 ~ file: productSKUModel.js:46 ~ validData:', validData)
+    const product = await productModel.findOneById(productId)
+    if (!product)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Product is not exits!')
+    const productFindByERPCode = await findOneByField(internalCodeAttribute)
 
+    console.log(
+      '🚀 ~ file: productSKUModel.js:52 ~ productFindByERPCode:',
+      productFindByERPCode
+    )
+    if (productFindByERPCode)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'ERP Code is already exits')
     const createNewQuery = `
-        INSERT INTO products(name,description,cover,slug) values($1,$2,$3,$4) RETURNING  *;`
+        INSERT INTO productsku(productid,colorattributeid,painttypeattributeid,internalcodeattribute) values($1,$2,$3,$4) RETURNING  *;`
     const client = await pool.connect()
-    const { name, description, cover, slug } = validData
-    const result = await client.query(createNewQuery, [
-      name,
-      description,
-      cover,
-      slug
-    ])
 
-    console.log('🚀 ~ file: productModel.js:31 ~ result:', result)
+    const result = await client.query(createNewQuery, [
+      productId,
+      colorAttributeId,
+      paintTypeAttributeId,
+      internalCodeAttribute
+    ])
 
     client.release()
     return result.rows[0] || null
@@ -115,7 +134,7 @@ const createNew = async (data) => {
 //   }
 // }
 
-export const productModel = {
+export const productSKUModel = {
   createNew
   //   findOneById,
   //   getDetails,

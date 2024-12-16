@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
+import { productSKUService } from '~/services/product/productSKUService'
 const createNew = async (req, res, next) => {
   try {
     const createProductSKU = await productSKUService.createNew(req.body)
@@ -10,16 +11,16 @@ const createNew = async (req, res, next) => {
   }
 }
 
-const getDetails = async (req, res, next) => {
-  try {
-    const productId = req.params.id
+// const getDetails = async (req, res, next) => {
+//   try {
+//     const productId = req.params.id
 
-    const product = await productService.getDetails(productId)
-    res.status(StatusCodes.OK).json(product)
-  } catch (error) {
-    next(error)
-  }
-}
+//     const product = await productService.getDetails(productId)
+//     res.status(StatusCodes.OK).json(product)
+//   } catch (error) {
+//     next(error)
+//   }
+// }
 
 // const update = async (req, res, next) => {
 //   try {
@@ -41,9 +42,9 @@ const getDetails = async (req, res, next) => {
 //   }
 // }
 
-export const productController = {
-  createNew,
-  getDetails
+export const productSKUController = {
+  createNew
+  // getDetails
   //   update,
   //   deleteItem
 }

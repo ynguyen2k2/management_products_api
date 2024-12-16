@@ -1,5 +1,6 @@
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
+import { productSKUController } from '~/controller/product/productSKUController'
 import { productSKUValidation } from '~/validations/product/productSKUValidation'
 
 const Router = express.Router()

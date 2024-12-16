@@ -67,6 +67,7 @@ const findOneById = async (id) => {
   }
 }
 
+
 const getDetails = async (id) => {
   // const result = await
   try {
@@ -82,6 +83,20 @@ const getDetails = async (id) => {
     throw new Error(error)
   }
 }
+
+const getAllProduct = async () => {
+  try {
+    const getDetailsQuery = 'SELECT * FROM  products '
+    const client = await pool.connect()
+
+    const result = await client.query(getDetailsQuery)
+    client.release()
+    return result.rows[0] || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 const update = async (productId, updateData) => {
   try {
     Object.keys(updateData).forEach((fieldName) => {
