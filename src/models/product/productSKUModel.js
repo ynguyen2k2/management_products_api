@@ -17,7 +17,7 @@ const validateBeforeCreate = async (data) => {
   })
 }
 
-// const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
+const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
 
 const findOneByField = async (field) => {
   try {
@@ -89,7 +89,7 @@ const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
 
-    const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
+    const getDetailsQuery = 'SELECT * FROM products WHERE id = $1 '
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
@@ -99,43 +99,60 @@ const getDetails = async (id) => {
     throw new Error(error)
   }
 }
-// const update = async (productId, updateData) => {
-//   try {
-//     Object.keys(updateData).forEach((fieldName) => {
-//       if (INVALID_UPDATE_FIELDS.includes(fieldName))
-//         delete updateData[fieldName]
-//     })
+const getAllProductSKU = async (limitPage, offsetPage) => {
+  try {
+    const getDetailsQuery =
+      'SELECT * FROM  productssku order by id limit = $1 offset = $2'
+    const client = await pool.connect()
 
-//     const fieldNames = Object.keys(updateData)
-//     const fieldValue = Object.values(updateData)
+    const result = await client.query(getDetailsQuery, [limitPage, offsetPage])
+    client.release()
+    return result.rows[0] || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+const update = async (productSKUId, updateData) => {
+  try {
+    Object.keys(updateData).forEach((fieldName) => {
+      if (INVALID_UPDATE_FIELDS.includes(fieldName))
+        delete updateData[fieldName]
+    })
 
-//     const updateQuery = `UPDATE products SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1 RETURNING * ;`
-//     const client = await pool.connect()
+    const fieldNames = Object.keys(updateData)
+    const fieldValue = Object.values(updateData)
 
-//     const result = await client.query(updateQuery, [productId, ...fieldValue])
-//     client.release()
-//     return result.rows[0]
-//   } catch (error) {
-//     throw new Error(error)
-//   }
-// }
+    const updateQuery = `UPDATE productssku SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1 RETURNING * ;`
+    const client = await pool.connect()
 
-// const deleteOneById = async (id) => {
-//   try {
-//     const deleteQuery = 'DELETE FROM products WHERE id = $1 RETURNING *'
-//     const client = await pool.connect()
-//     const result = await client.query(deleteQuery, [id])
-//     client.release()
-//     return result.rows[0]
-//   } catch (error) {
-//     throw new Error(error)
-//   }
-// }
+    const result = await client.query(updateQuery, [
+      productSKUId,
+      ...fieldValue
+    ])
+    client.release()
+    return result.rows[0]
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const deleteOneById = async (id) => {
+  try {
+    const deleteQuery = 'DELETE FROM products WHERE id = $1 RETURNING *'
+    const client = await pool.connect()
+    const result = await client.query(deleteQuery, [id])
+    client.release()
+    return result.rows[0]
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
 export const productSKUModel = {
-  createNew
-  //   findOneById,
-  //   getDetails,
-  //   update,
-  //   deleteOneById
+  createNew,
+  findOneById,
+  getDetails,
+  getAllProductSKU,
+  update,
+  deleteOneById
 }

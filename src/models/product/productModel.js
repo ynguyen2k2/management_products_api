@@ -82,12 +82,13 @@ const getDetails = async (id) => {
   }
 }
 
-const getAllProduct = async () => {
+const getAllProduct = async (limitPage, offsetPage) => {
   try {
-    const getDetailsQuery = 'SELECT * FROM  products '
+    const getDetailsQuery =
+      'SELECT * FROM  products order by id limit = $1 offset = $2'
     const client = await pool.connect()
 
-    const result = await client.query(getDetailsQuery)
+    const result = await client.query(getDetailsQuery, [limitPage, offsetPage])
     client.release()
     return result.rows[0] || null
   } catch (error) {
