@@ -2,11 +2,9 @@
 CREATE TYPE productattributetype AS ENUM( 
     'color',
     'painttype',
-    'internalcode'
 );
 
 CREATE TYPE componentattributetype AS ENUM( 
-    'internalcode',
     'color',
     'rawmaterial'
 );
@@ -52,7 +50,7 @@ CREATE TABLE IF NOT EXISTS "productssku" (
     "productid" integer,
     "colorattributeid" integer,
     "painttypeattributeid" integer,
-    "internalcodeattribute" integer,
+    "internalcodeattribute" varchar(50) NOT NULL,
     "createdat" timestamp
     with
         time zone default current_timestamp,
@@ -173,8 +171,6 @@ ADD FOREIGN KEY ("colorattributeid") REFERENCES "productattributes" ("id") ON DE
 ALTER TABLE "productssku"
 ADD FOREIGN KEY ("painttypeattributeid") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "productssku"
-ADD FOREIGN KEY ("internalcodeattribute") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "components"
 ADD FOREIGN KEY ("productid") REFERENCES "productssku" ("id") ON DELETE CASCADE ON UPDATE CASCADE;

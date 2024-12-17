@@ -45,18 +45,21 @@ const createNew = async (data) => {
 
     console.log('🚀 ~ file: productSKUModel.js:46 ~ validData:', validData)
     const product = await productModel.findOneById(productId)
+
+    console.log('🚀 ~ file: productSKUModel.js:49 ~ product:', product)
+
     if (!product)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product is not exits!')
     const productFindByERPCode = await findOneByField(internalCodeAttribute)
 
     console.log(
-      '🚀 ~ file: productSKUModel.js:52 ~ productFindByERPCode:',
+      '🚀 ~ file: productSKUModel.js:54 ~ productFindByERPCode:',
       productFindByERPCode
     )
     if (productFindByERPCode)
       throw new ApiError(StatusCodes.NOT_FOUND, 'ERP Code is already exits')
     const createNewQuery = `
-        INSERT INTO productsku(productid,colorattributeid,painttypeattributeid,internalcodeattribute) values($1,$2,$3,$4) RETURNING  *;`
+        INSERT INTO productssku(productid,colorattributeid,painttypeattributeid,internalcodeattribute) values($1,$2,$3,$4) RETURNING  *;`
     const client = await pool.connect()
 
     const result = await client.query(createNewQuery, [

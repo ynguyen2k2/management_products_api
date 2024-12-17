@@ -56,10 +56,12 @@ const createNew = async (data) => {
 
 const findOneById = async (id) => {
   try {
-    const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
+    const getDetailsQuery = 'SELECT * FROM products WHERE id = $1 '
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
+
+    console.log('🚀 ~ file: productModel.js:64 ~ result:', result)
     client.release()
     return result.rows[0] || null
   } catch (error) {
@@ -67,12 +69,9 @@ const findOneById = async (id) => {
   }
 }
 
-
 const getDetails = async (id) => {
-  // const result = await
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
-
     const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
     const client = await pool.connect()
 
