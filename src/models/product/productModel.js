@@ -61,7 +61,6 @@ const findOneById = async (id) => {
 
     const result = await client.query(getDetailsQuery, [id])
 
-    console.log('🚀 ~ file: productModel.js:64 ~ result:', result)
     client.release()
     return result.rows[0] || null
   } catch (error) {

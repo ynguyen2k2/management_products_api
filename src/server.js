@@ -33,7 +33,6 @@ const START_SERVER = () => {
   try {
     // initDBTable()
     START_SERVER()
-
     // dropAllTables()
   } catch (error) {
     // eslint-disable-next-line no-console

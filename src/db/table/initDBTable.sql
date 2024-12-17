@@ -1,14 +1,21 @@
 -- Active: 1731071036952@@127.0.0.1@5432@management-product@public
-CREATE TYPE productattributetype AS ENUM( 
-    'color',
-    'painttype',
+
+CREATE TABLE IF NOT EXISTS "colorproduct" (
+    "id" serial PRIMARY KEY,
+    "value"  varchar(50) not null,
+    "colorcode" varchar(50) not null
+   
 );
 
-CREATE TYPE componentattributetype AS ENUM( 
-    'color',
-    'rawmaterial'
+CREATE TABLE IF NOT EXISTS "painttype" (
+    "id" serial PRIMARY KEY,
+    "value" VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS "rawmaterial" (
+    "id" serial PRIMARY KEY,
+    "value" VARCHAR(50) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS "users" (
     "id" serial PRIMARY KEY,
@@ -35,43 +42,26 @@ CREATE TABLE IF NOT EXISTS "products" (
         "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "productattributes" (
-    "id" serial PRIMARY KEY,
-    "type" productattributetype,
-    "value" varchar,
-    "createdat" timestamp
-    with
-        time zone default current_timestamp,
-        "updatedat" timestamp default null
-);
 
 CREATE TABLE IF NOT EXISTS "productssku" (
     "id" serial PRIMARY KEY,
     "productid" integer,
-    "colorattributeid" integer,
-    "painttypeattributeid" integer,
-    "internalcodeattribute" varchar(50) NOT NULL,
+    "colorid" integer,
+    "painttypeid" integer,
+    "internalcode" varchar(50) NOT NULL,
     "createdat" timestamp
     with
         time zone default current_timestamp,
         "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "componentattributes" (
-    "id" serial PRIMARY KEY,
-    "type" componentattributetype,
-    "value" varchar,
-    "createdat" timestamp
-    with
-        time zone default current_timestamp,
-        "updatedat" timestamp default null
-);
+
 
 CREATE TABLE IF NOT EXISTS "components" (
     "id" serial PRIMARY KEY,
     "productid" integer,
-    "colorattributeid" integer,
-    "rawmaterailattributeid" integer,
+    "colorid" integer,
+    "rawmaterialid" integer,
     "quatity" integer,
     "dimension" varchar,
     "createdat" timestamp
@@ -166,20 +156,19 @@ ALTER TABLE "productssku"
 ADD FOREIGN KEY ("productid") REFERENCES "products" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "productssku"
-ADD FOREIGN KEY ("colorattributeid") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY ("colorid") REFERENCES "colorproduct" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "productssku"
-ADD FOREIGN KEY ("painttypeattributeid") REFERENCES "productattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
+ADD FOREIGN KEY ("painttypeid") REFERENCES "painttype" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "components"
 ADD FOREIGN KEY ("productid") REFERENCES "productssku" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "components"
-ADD FOREIGN KEY ("colorattributeid") REFERENCES "componentattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY ("colorid") REFERENCES "colorproduct" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "components"
-ADD FOREIGN KEY ("rawmaterailattributeid") REFERENCES "componentattributes" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY ("rawmaterialid") REFERENCES "rawmaterial" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "quatitycomponent"
 ADD FOREIGN KEY ("componentid") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;

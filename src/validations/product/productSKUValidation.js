@@ -5,9 +5,9 @@ import ApiError from '~/utils/ApiError'
 const createNew = async (req, res, next) => {
   const conrectCondition = Joi.object({
     productId: Joi.number().required().min(1),
-    colorAttributeId: Joi.number().min(1),
-    paintTypeAttributeId: Joi.number(),
-    internalCodeAttribute: Joi.string().max(20).trim().required()
+    colorId: Joi.number().min(1),
+    paintTypeId: Joi.number(),
+    internalCode: Joi.string().max(20).trim().required()
   })
   try {
     await conrectCondition.validateAsync(req.body, { abortEarly: false })

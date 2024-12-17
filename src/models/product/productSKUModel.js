@@ -6,9 +6,9 @@ import { StatusCodes } from 'http-status-codes'
 
 const PRODUCTION_COLLECTION_SCHEMA = Joi.object({
   productId: Joi.number().required().min(1),
-  colorAttributeId: Joi.number().required().min(1),
-  paintTypeAttributeId: Joi.number().required(),
-  internalCodeAttribute: Joi.string().required().max(20).trim()
+  colorId: Joi.number().required().min(1),
+  paintTypeId: Joi.number().required(),
+  internalCode: Joi.string().required().max(20).trim()
 })
 
 const validateBeforeCreate = async (data) => {
@@ -22,7 +22,7 @@ const validateBeforeCreate = async (data) => {
 const findOneByField = async (field) => {
   try {
     const getDetailsQuery =
-      'SELECT * FROM  productssku WHERE internalcodeattribute = $1 '
+      'SELECT * FROM  productssku WHERE internalcode = $1 '
 
     const client = await pool.connect()
     const result = await client.query(getDetailsQuery, [field])
@@ -36,12 +36,7 @@ const findOneByField = async (field) => {
 const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
-    const {
-      productId,
-      colorAttributeId,
-      paintTypeAttributeId,
-      internalCodeAttribute
-    } = validData
+    const { productId, colorId, paintTypeId, internalCode } = validData
 
     console.log('🚀 ~ file: productSKUModel.js:46 ~ validData:', validData)
     const product = await productModel.findOneById(productId)
@@ -50,7 +45,7 @@ const createNew = async (data) => {
 
     if (!product)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product is not exits!')
-    const productFindByERPCode = await findOneByField(internalCodeAttribute)
+    const productFindByERPCode = await findOneByField(internalCode)
 
     console.log(
       '🚀 ~ file: productSKUModel.js:54 ~ productFindByERPCode:',
@@ -59,14 +54,14 @@ const createNew = async (data) => {
     if (productFindByERPCode)
       throw new ApiError(StatusCodes.NOT_FOUND, 'ERP Code is already exits')
     const createNewQuery = `
-        INSERT INTO productssku(productid,colorattributeid,painttypeattributeid,internalcodeattribute) values($1,$2,$3,$4) RETURNING  *;`
+        INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values($1,$2,$3,$4) RETURNING  *;`
     const client = await pool.connect()
 
     const result = await client.query(createNewQuery, [
       productId,
-      colorAttributeId,
-      paintTypeAttributeId,
-      internalCodeAttribute
+      colorId,
+      paintTypeId,
+      internalCode
     ])
 
     client.release()
@@ -76,34 +71,34 @@ const createNew = async (data) => {
   }
 }
 
-// const findOneById = async (id) => {
-//   try {
-//     const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
-//     const client = await pool.connect()
+const findOneById = async (id) => {
+  try {
+    const getDetailsQuery = 'SELECT * FROM products WHERE id = $1 '
+    const client = await pool.connect()
 
-//     const result = await client.query(getDetailsQuery, [id])
-//     client.release()
-//     return result.rows[0] || null
-//   } catch (error) {
-//     throw new Error(error)
-//   }
-// }
+    const result = await client.query(getDetailsQuery, [id])
+    client.release()
+    return result.rows[0] || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
-// const getDetails = async (id) => {
-//   // const result = await
-//   try {
-//     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
+const getDetails = async (id) => {
+  // const result = await
+  try {
+    // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
 
-//     const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
-//     const client = await pool.connect()
+    const getDetailsQuery = 'SELECT * FROM  products WHERE id = $1 '
+    const client = await pool.connect()
 
-//     const result = await client.query(getDetailsQuery, [id])
-//     client.release()
-//     return result.rows[0] || null
-//   } catch (error) {
-//     throw new Error(error)
-//   }
-// }
+    const result = await client.query(getDetailsQuery, [id])
+    client.release()
+    return result.rows[0] || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 // const update = async (productId, updateData) => {
 //   try {
 //     Object.keys(updateData).forEach((fieldName) => {
