@@ -1,4 +1,6 @@
+import { StatusCodes } from 'http-status-codes'
 import { productSKUModel } from '~/models/product/productSKUModel'
+import ApiError from '~/utils/ApiError'
 // import ApiError from '~/utils/ApiError'
 
 const createNew = async (reqBody) => {
@@ -16,51 +18,50 @@ const createNew = async (reqBody) => {
   }
 }
 
-// const getDetails = async (productId) => {
-//   // eslint-disable-next-line no-useless-catch
-//   try {
-//     const product = await productModel.getDetails(productId)
+const getDetails = async (productId) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const product = await productSKUModel.getDetails(productId)
 
-//     console.log('🚀 ~ file: productService.js:27 ~ product:', product)
-//     if (!product)
-//       throw new ApiError(StatusCodes.NOT_FOUND, 'Product not found!')
-//     return product
-//   } catch (error) {
-//     throw error
-//   }
-// }
-// const update = async (productId, reqBody) => {
-//   // eslint-disable-next-line no-useless-catch
-//   try {
-//     const updateData = {
-//       ...reqBody,
-//       updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
-//     }
-//     const product = await productModel.update(productId, updateData)
-//     return product
-//   } catch (error) {
-//     throw error
-//   }
-// }
+    if (!product)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Product not found!')
+    return product
+  } catch (error) {
+    throw error
+  }
+}
+const update = async (productId, reqBody) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const updateData = {
+      ...reqBody,
+      updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
+    }
+    const product = await productSKUModel.update(productId, updateData)
+    return product
+  } catch (error) {
+    throw error
+  }
+}
 
-// const deleteItem = async (productId) => {
-//   // eslint-disable-next-line no-useless-catch
-//   try {
-//     const targetProduct = await productModel.findOneById(productId)
-//     if (!targetProduct)
-//       throw new ApiError(StatusCodes.NOT_FOUND, 'Product Not Found!')
-//     await productModel.deleteOneById(productId)
-//     return {
-//       deleteResult: 'Product and all its properties are deleted successfully'
-//     }
-//   } catch (error) {
-//     throw error
-//   }
-// }
+const deleteItem = async (productId) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const targetProduct = await productSKUModel.findOneById(productId)
+    if (!targetProduct)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Product Not Found!')
+    await productSKUModel.deleteOneById(productId)
+    return {
+      deleteResult: 'Product and all its properties are deleted successfully'
+    }
+  } catch (error) {
+    throw error
+  }
+}
 
 export const productSKUService = {
-  createNew
-  // getDetails,
-  // update,
-  // deleteItem
+  createNew,
+  getDetails,
+  update,
+  deleteItem
 }
