@@ -21,9 +21,7 @@ const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
 
 const findOneByField = async (field) => {
   try {
-    const getDetailsQuery =
-      'SELECT * FROM  productssku WHERE internalcode = $1 '
-
+    const getDetailsQuery = 'SELECT * FROM  productssku WHERE internalcode = $1'
     const client = await pool.connect()
     const result = await client.query(getDetailsQuery, [field])
     client.release()
@@ -37,20 +35,12 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
     const { productId, colorId, paintTypeId, internalCode } = validData
-
-    console.log('🚀 ~ file: productSKUModel.js:46 ~ validData:', validData)
     const product = await productModel.findOneById(productId)
-
-    console.log('🚀 ~ file: productSKUModel.js:49 ~ product:', product)
 
     if (!product)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product is not exits!')
     const productFindByERPCode = await findOneByField(internalCode)
 
-    console.log(
-      '🚀 ~ file: productSKUModel.js:54 ~ productFindByERPCode:',
-      productFindByERPCode
-    )
     if (productFindByERPCode)
       throw new ApiError(StatusCodes.NOT_FOUND, 'ERP Code is already exits')
     const createNewQuery = `
@@ -63,7 +53,6 @@ const createNew = async (data) => {
       paintTypeId,
       internalCode
     ])
-
     client.release()
     return result.rows[0] || null
   } catch (error) {
