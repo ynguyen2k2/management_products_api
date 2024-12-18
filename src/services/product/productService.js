@@ -33,10 +33,15 @@ const getDetails = async (productId) => {
   }
 }
 
-const getAllProduct = async (limitNumber, offsetNumber) => {
+const getAll = async ({ limit, offset, sort, filter }) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const products = await productModel.getAllProduct(limitNumber, offsetNumber)
+    const products = await productModel.getAll({
+      limit,
+      offset,
+      sort,
+      filter
+    })
     return products
   } catch (error) {
     throw error
@@ -74,7 +79,7 @@ const deleteItem = async (productId) => {
 export const productService = {
   createNew,
   getDetails,
-  getAllProduct,
+  getAll,
   update,
   deleteItem
 }

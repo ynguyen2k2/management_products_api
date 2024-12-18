@@ -20,7 +20,17 @@ const getDetails = async (req, res, next) => {
   }
 }
 
+const getAll = async (req, res, next) => {
+  try {
+    const { limit, page } = req.query
+    const offset = (page - 1) * limit
 
+    const productsSKU = await productSKUService.getAll(limit, offset)
+    res.status(StatusCodes.OK).json(productsSKU)
+  } catch (error) {
+    next(error)
+  }
+}
 
 const update = async (req, res, next) => {
   try {
@@ -45,6 +55,7 @@ const deleteItem = async (req, res, next) => {
 export const productSKUController = {
   createNew,
   getDetails,
+  getAll,
   update,
   deleteItem
 }

@@ -88,7 +88,7 @@ const getDetails = async (id) => {
     throw new Error(error)
   }
 }
-const getAllProductSKU = async (limitPage, offsetPage) => {
+const getAll = async (limitPage, offsetPage) => {
   try {
     const getDetailsQuery =
       'SELECT * FROM  productssku order by id limit = $1 offset = $2'
@@ -141,7 +141,7 @@ export const productSKUModel = {
   createNew,
   findOneById,
   getDetails,
-  getAllProductSKU,
+  getAll,
   update,
   deleteOneById
 }

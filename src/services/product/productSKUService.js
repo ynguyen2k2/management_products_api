@@ -30,6 +30,20 @@ const getDetails = async (productId) => {
     throw error
   }
 }
+
+const getAllProduct = async (limitNumber, offsetNumber) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const products = await productSKUModel.getAllProduct(
+      limitNumber,
+      offsetNumber
+    )
+    return products
+  } catch (error) {
+    throw error
+  }
+}
+
 const update = async (productId, reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
@@ -47,12 +61,12 @@ const update = async (productId, reqBody) => {
 const deleteItem = async (productId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const targetProduct = await productSKUModel.findOneById(productId)
-    if (!targetProduct)
+    const targetProductSKU = await productSKUModel.findOneById(productId)
+    if (!targetProductSKU)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product Not Found!')
     await productSKUModel.deleteOneById(productId)
     return {
-      deleteResult: 'Product and all its properties are deleted successfully'
+      deleteResult: 'ProductSKU and all its properties are deleted successfully'
     }
   } catch (error) {
     throw error
@@ -62,6 +76,7 @@ const deleteItem = async (productId) => {
 export const productSKUService = {
   createNew,
   getDetails,
+  getAllProduct,
   update,
   deleteItem
 }

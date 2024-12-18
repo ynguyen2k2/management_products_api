@@ -1,21 +1,17 @@
 import express from 'express'
-import { StatusCodes } from 'http-status-codes'
 import { productSKUController } from '~/controller/product/productSKUController'
 import { productSKUValidation } from '~/validations/product/productSKUValidation'
+import { validatePaginationParams } from '~/validations/product/validatePaginationParams'
 
 const Router = express.Router()
 
 Router.route('/')
-  .get((req, res) => {
-    res.status(StatusCodes.OK).json({
-      message: 'Note: API get list products SKU'
-    })
-  })
+  .get(validatePaginationParams.validateQuery, productSKUController.getAll)
   .post(productSKUValidation.createNew, productSKUController.createNew)
 Router.route('/:id')
-//   .get(productController.getDetails)
-//   // update product
-//   .patch(productValidation.update, productController.update)
-//   .delete(productController.deleteItem)
+  .get(productSKUController.getDetails)
+  // update product
+  // .patch(productSKUValidation.update, productController.update)
+  .delete(productSKUController.deleteItem)
 
 export const productSKURoute = Router

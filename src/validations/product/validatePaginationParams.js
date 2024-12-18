@@ -1,11 +1,14 @@
-import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
 import ApiError from '~/utils/ApiError'
 
-const validateQuery = async (req, next) => {
-  const limit = parseInt(req.query.limit) || 10
+const validateQuery = async (req, res, next) => {
+  const limit = parseInt(req.query.limit) || 5
   const page = parseInt(req.query.page) || 1
-  const sort = req.query.sort || 'asec'
+
+  console.log(
+    '🚀 ~ file: validatePaginationParams.js:11 ~ validateQuery ~  req.query:',
+    req.query
+  )
   if (limit > 100) {
     next(
       new ApiError(

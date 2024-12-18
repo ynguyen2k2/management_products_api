@@ -22,12 +22,20 @@ const getDetails = async (req, res, next) => {
   }
 }
 
-const getAllProduct = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
-    const { limit, page } = req.query
+    const limit = parseInt(req.query.limit) || 5
+    const page = parseInt(req.query.page) || 1
+    const sort = req.query.sort || 'asc'
+    const filter = req.query.filter || 'id'
+    const offset = (page - 1) * limit
 
-    console.log('🚀 ~ file: productController.js:29 ~ req.query:', req.query)
-    const products = await productService.getAllProduct(limit, page)
+    const products = await productService.getAll({
+      limit,
+      offset,
+      sort,
+      filter
+    })
     res.status(StatusCodes.OK).json(products)
   } catch (error) {
     next(error)
@@ -57,7 +65,7 @@ const deleteItem = async (req, res, next) => {
 export const productController = {
   createNew,
   getDetails,
-  getAllProduct,
+  getAll,
   update,
   deleteItem
 }
