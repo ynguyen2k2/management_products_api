@@ -4,10 +4,7 @@ import ApiError from '~/utils/ApiError'
 
 const createNew = async (req, res, next) => {
   const conrectCondition = Joi.object({
-    productId: Joi.number().required().min(1),
-    colorId: Joi.number().min(1),
-    paintTypeId: Joi.number(),
-    internalCode: Joi.string().max(20).trim().required()
+    value: Joi.string().required().min(3).max(100).trim().strict()
   })
   try {
     await conrectCondition.validateAsync(req.body, { abortEarly: false })
@@ -23,10 +20,7 @@ const createNew = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const conrectCondition = Joi.object({
-    productid: Joi.number().min(1),
-    colorattributeid: Joi.number().min(1),
-    painttypeattributeid: Joi.number(),
-    internalcodeattibute: Joi.string().max(20).trim()
+    value: Joi.string().required().min(3).max(100).trim().strict()
   })
   try {
     await conrectCondition.validateAsync(req.body, {
@@ -42,7 +36,7 @@ const update = async (req, res, next) => {
   }
 }
 
-export const productSKUValidation = {
+export const paintTypeValidation = {
   createNew,
   update
 }
