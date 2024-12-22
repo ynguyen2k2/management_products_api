@@ -18,15 +18,11 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
 
-    console.log('🚀 ~ file: productModel.js:23 ~ validData:', validData)
-
     const createNewQuery = `
-        INSERT INTO colorproduct(vallue,colorcode) values($1,$2) RETURNING  *;`
+        INSERT INTO colorproduct(value,colorcode) values($1,$2) RETURNING  *;`
     const client = await pool.connect()
     const { value, colorCode } = validData
     const result = await client.query(createNewQuery, [value, colorCode])
-
-    console.log('🚀 ~ file: productModel.js:31 ~ result:', result)
 
     client.release()
     return result.rows[0] || null
@@ -63,18 +59,14 @@ const getDetails = async (id) => {
   }
 }
 
-const getAll = async (limitNumber, offsetPage) => {
+const getAll = async ({ limit, offset, sort, filter }) => {
   try {
-    const getDetailsQuery =
-      'SELECT * FROM  colorproduct order by id limit = $1 offset = $2'
+    const getDetailsQuery = `SELECT * FROM  colorproduct order by ${filter} ${sort} limit  $1 offset  $2`
     const client = await pool.connect()
 
-    const result = await client.query(getDetailsQuery, [
-      limitNumber,
-      offsetPage
-    ])
+    const result = await client.query(getDetailsQuery, [limit, offset])
     client.release()
-    return result.rows[0] || null
+    return result.rows || null
   } catch (error) {
     throw new Error(error)
   }

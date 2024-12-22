@@ -22,10 +22,18 @@ const getDetails = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const { limit, page } = req.query
+    const limit = parseInt(req.query.limit) || 5
+    const page = parseInt(req.query.page) || 1
+    const sort = req.query.sort || 'asc'
+    const filter = req.query.filter || 'id'
     const offset = (page - 1) * limit
 
-    const productsSKU = await productSKUService.getAll(limit, offset)
+    const productsSKU = await productSKUService.getAll({
+      limit,
+      offset,
+      sort,
+      filter
+    })
     res.status(StatusCodes.OK).json(productsSKU)
   } catch (error) {
     next(error)
@@ -34,9 +42,9 @@ const getAll = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const productId = req.params.id
-    const product = await productSKUService.update(productId, req.body)
-    res.status(StatusCodes.OK).json(product)
+    const productskuId = req.params.id
+    const productSKU = await productSKUService.update(productskuId, req.body)
+    res.status(StatusCodes.OK).json(productSKU)
   } catch (error) {
     next(error)
   }

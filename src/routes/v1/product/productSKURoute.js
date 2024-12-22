@@ -11,7 +11,7 @@ Router.route('/')
 Router.route('/:id')
   .get(productSKUController.getDetails)
   // update product
-  // .patch(productSKUValidation.update, productController.update)
+  .patch(productSKUValidation.update, productSKUController.update)
   .delete(productSKUController.deleteItem)
 
 export const productSKURoute = Router

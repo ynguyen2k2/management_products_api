@@ -1,11 +1,11 @@
 import { StatusCodes } from 'http-status-codes'
-import { colorService } from '~/services/product/properties/colorService'
+import { rawMaterialService } from '~/services/product/properties/rawMaterailService'
 const createNew = async (req, res, next) => {
   try {
-    const createColor = await colorService.createNew(req.body)
+    const createRawMaterial = await rawMaterialService.createNew(req.body)
 
     // console.log("🚀 ~ file: productController.js:7 ~ req.body:", req.body)
-    res.status(StatusCodes.CREATED).json(createColor)
+    res.status(StatusCodes.CREATED).json(createRawMaterial)
   } catch (error) {
     next(error)
   }
@@ -13,10 +13,10 @@ const createNew = async (req, res, next) => {
 // get all productSKU of product
 const getDetails = async (req, res, next) => {
   try {
-    const colorId = req.params.id
+    const rawMaterialId = req.params.id
 
-    const color = await colorService.getDetails(colorId)
-    res.status(StatusCodes.OK).json(color)
+    const rawMaterial = await rawMaterialService.getDetails(rawMaterialId)
+    res.status(StatusCodes.OK).json(rawMaterial)
   } catch (error) {
     next(error)
   }
@@ -30,13 +30,13 @@ const getAll = async (req, res, next) => {
     const filter = req.query.filter || 'id'
     const offset = (page - 1) * limit
 
-    const colors = await colorService.getAll({
+    const rawMaterials = await rawMaterialService.getAll({
       limit,
       offset,
       sort,
       filter
     })
-    res.status(StatusCodes.OK).json(colors)
+    res.status(StatusCodes.OK).json(rawMaterials)
   } catch (error) {
     next(error)
   }
@@ -44,9 +44,9 @@ const getAll = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const colorId = req.params.id
-    const color = await colorService.update(colorId, req.body)
-    res.status(StatusCodes.OK).json(color)
+    const rawMaterialId = req.params.id
+    const rawMaterial = await rawMaterialService.update(rawMaterialId, req.body)
+    res.status(StatusCodes.OK).json(rawMaterial)
   } catch (error) {
     next(error)
   }
@@ -54,15 +54,15 @@ const update = async (req, res, next) => {
 
 const deleteItem = async (req, res, next) => {
   try {
-    const colorId = req.params.id
-    const result = await colorService.deleteItem(colorId)
+    const rawMaterialId = req.params.id
+    const result = await rawMaterialService.deleteItem(rawMaterialId)
     res.status(StatusCodes.OK).json(result)
   } catch (error) {
     next(error)
   }
 }
 
-export const colorController = {
+export const rawMaterialController = {
   createNew,
   getDetails,
   getAll,

@@ -31,27 +31,29 @@ const getDetails = async (productId) => {
   }
 }
 
-const getAllProduct = async (limitNumber, offsetNumber) => {
+const getAll = async ({ limit, offset, sort, filter }) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const products = await productSKUModel.getAllProduct(
-      limitNumber,
-      offsetNumber
-    )
+    const products = await productSKUModel.getAll({
+      limit,
+      offset,
+      sort,
+      filter
+    })
     return products
   } catch (error) {
     throw error
   }
 }
 
-const update = async (productId, reqBody) => {
+const update = async (productskuId, reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const updateData = {
       ...reqBody,
       updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
     }
-    const product = await productSKUModel.update(productId, updateData)
+    const product = await productSKUModel.update(productskuId, updateData)
     return product
   } catch (error) {
     throw error
@@ -76,7 +78,7 @@ const deleteItem = async (productId) => {
 export const productSKUService = {
   createNew,
   getDetails,
-  getAllProduct,
+  getAll,
   update,
   deleteItem
 }

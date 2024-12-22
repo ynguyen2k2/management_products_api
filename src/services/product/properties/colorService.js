@@ -15,23 +15,27 @@ const createNew = async (reqBody) => {
   }
 }
 
-// const getDetails = async (colorId) => {
-//   // eslint-disable-next-line no-useless-catch
-//   try {
-//     const color = await colorModel.getDetails(colorId)
-
-//     if (!color)
-//       throw new ApiError(StatusCodes.NOT_FOUND, 'Color not found!')
-//     return color
-//   } catch (error) {
-//     throw error
-//   }
-// }
-
-const getAll = async (limitNumber, offsetNumber) => {
+const getDetails = async (colorId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const colors = await colorModel.getAll(limitNumber, offsetNumber)
+    const color = await colorModel.getDetails(colorId)
+
+    if (!color) throw new ApiError(StatusCodes.NOT_FOUND, 'Color not found!')
+    return color
+  } catch (error) {
+    throw error
+  }
+}
+
+const getAll = async ({ limit, offset, sort, filter }) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const colors = await colorModel.getAll({
+      limit,
+      offset,
+      sort,
+      filter
+    })
     return colors
   } catch (error) {
     throw error
@@ -44,8 +48,8 @@ const update = async (colorId, reqBody) => {
       ...reqBody,
       updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
     }
-    const product = await colorModel.update(colorId, updateData)
-    return product
+    const color = await colorModel.update(colorId, updateData)
+    return color
   } catch (error) {
     throw error
   }
@@ -68,6 +72,7 @@ const deleteItem = async (colorId) => {
 
 export const colorService = {
   createNew,
+  getDetails,
   getAll,
   update,
   deleteItem

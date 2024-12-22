@@ -3,9 +3,9 @@ select * from productattributes;
 
 select * from productssku;
 
-insert into colorproduct (values,colorcode) values('clear varnish 02','444');
-insert into colorproduct (values,colorcode) values('clear varnish 04','555');
-insert into colorproduct (values,colorcode) values('clear varnish 06','666');
+insert into colorproduct (value,colorcode) values('clear varnish 02','444');
+insert into colorproduct (value,colorcode) values('clear varnish 04','555');
+insert into colorproduct (value,colorcode) values('clear varnish 06','666');
 
 select * from colorproduct;
 select * from painttype;

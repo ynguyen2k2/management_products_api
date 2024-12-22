@@ -10,7 +10,7 @@ Router.route('/')
   .get(validatePaginationParams.validateQuery, colorController.getAll)
   .post(colorValidation.createNew, colorController.createNew)
 Router.route('/:id')
-  // .get(co.getDetails)
+  .get(colorController.getDetails)
   // update product
   .patch(colorValidation.update, colorController.update)
   .delete(colorController.deleteItem)

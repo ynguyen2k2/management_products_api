@@ -1,6 +1,6 @@
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
-import { paintTypeModel } from '~/models/product/properties/paintTypeModel'
+import { rawMaterialModel } from '~/models/product/properties/rawMaterialModel'
 
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
@@ -8,21 +8,21 @@ const createNew = async (reqBody) => {
     const newColor = {
       ...reqBody
     }
-    const createPaintType = await paintTypeModel.createNew(newColor)
-    return createPaintType
+    const createRawMaterial = await rawMaterialModel.createNew(newColor)
+    return createRawMaterial
   } catch (error) {
     throw error
   }
 }
 
-const getDetails = async (colorId) => {
+const getDetails = async (rawMaterialId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const paintType = await paintTypeModel.getDetails(colorId)
+    const rawMaterial = await rawMaterialModel.getDetails(rawMaterialId)
 
-    if (!paintType)
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Color not found!')
-    return paintType
+    if (!rawMaterial)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'rawMaterial not found!')
+    return rawMaterial
   } catch (error) {
     throw error
   }
@@ -31,47 +31,48 @@ const getDetails = async (colorId) => {
 const getAll = async ({ limit, offset, sort, filter }) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const paintTypes = await paintTypeModel.getAll({
+    const rawMaterials = await rawMaterialModel.getAll({
       limit,
       offset,
       sort,
       filter
     })
-    return paintTypes
+    return rawMaterials
   } catch (error) {
     throw error
   }
 }
-const update = async (paintTypeId, reqBody) => {
+const update = async (rawMaterialId, reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const updateData = {
       ...reqBody,
       updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
     }
-    const paintType = await paintTypeModel.update(paintTypeId, updateData)
-    return paintType
+    const rawMaterial = await rawMaterialModel.update(rawMaterialId, updateData)
+    return rawMaterial
   } catch (error) {
     throw error
   }
 }
 
-const deleteItem = async (paintTypeId) => {
+const deleteItem = async (rawMaterialId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const targetPaintType = await paintTypeModel.findOneById(paintTypeId)
-    if (!targetPaintType)
+    const targetRawMaterial = await rawMaterialModel.findOneById(rawMaterialId)
+    if (!targetRawMaterial)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product Not Found!')
-    await paintTypeModel.deleteOneById(paintTypeId)
+    await rawMaterialModel.deleteOneById(rawMaterialId)
     return {
-      deleteResult: 'PaintType and all its properties are deleted successfully'
+      deleteResult:
+        'Raw Material and all its properties are deleted successfully'
     }
   } catch (error) {
     throw error
   }
 }
 
-export const paintTypeService = {
+export const rawMaterialService = {
   createNew,
   getDetails,
   getAll,

@@ -11,23 +11,32 @@ const createNew = async (req, res, next) => {
   }
 }
 // get all productSKU of product
-// const getDetails = async (req, res, next) => {
-//   try {
-//     const productId = req.params.id
+const getDetails = async (req, res, next) => {
+  try {
+    const paintTypeId = req.params.id
 
-//     const product = await productService.getDetails(productId)
-//     res.status(StatusCodes.OK).json(product)
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+    const paintType = await paintTypeService.getDetails(paintTypeId)
+    res.status(StatusCodes.OK).json(paintType)
+  } catch (error) {
+    next(error)
+  }
+}
 
 const getAll = async (req, res, next) => {
   try {
-    const { limit, page } = req.query
+    const limit = parseInt(req.query.limit) || 5
+    const page = parseInt(req.query.page) || 1
+    const sort = req.query.sort || 'asc'
+    const filter = req.query.filter || 'id'
+    const offset = (page - 1) * limit
 
-    const colors = await paintTypeService.getAll(limit, page)
-    res.status(StatusCodes.OK).json(colors)
+    const paintTypes = await paintTypeService.getAll({
+      limit,
+      offset,
+      sort,
+      filter
+    })
+    res.status(StatusCodes.OK).json(paintTypes)
   } catch (error) {
     next(error)
   }
@@ -56,6 +65,7 @@ const deleteItem = async (req, res, next) => {
 export const paintTypeController = {
   createNew,
   getAll,
+  getDetails,
   update,
   deleteItem
 }

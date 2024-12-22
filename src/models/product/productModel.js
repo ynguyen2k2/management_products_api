@@ -45,8 +45,6 @@ const createNew = async (data) => {
       slug
     ])
 
-    console.log('🚀 ~ file: productModel.js:31 ~ result:', result)
-
     client.release()
     return result.rows[0] || null
   } catch (error) {

@@ -1,5 +1,5 @@
 import express from 'express'
-import { paintTypeService } from '~/services/product/properties/paintTypeService'
+import { paintTypeController } from '~/controller/product/properties/paintTypeController'
 import { paintTypeValidation } from '~/validations/product/properties/paintTypeValidation'
 
 import { validatePaginationParams } from '~/validations/product/validatePaginationParams'
@@ -7,12 +7,12 @@ import { validatePaginationParams } from '~/validations/product/validatePaginati
 const Router = express.Router()
 
 Router.route('/')
-  .get(validatePaginationParams.validateQuery, paintTypeService.getAll)
-  .post(paintTypeValidation.createNew, paintTypeService.createNew)
+  .get(validatePaginationParams.validateQuery, paintTypeController.getAll)
+  .post(paintTypeValidation.createNew, paintTypeController.createNew)
 Router.route('/:id')
-  // .get(co.getDetails)
+  .get(paintTypeController.getDetails)
   // update product
-  .patch(paintTypeValidation.update, paintTypeService.update)
-  .delete(paintTypeService.deleteItem)
+  .patch(paintTypeValidation.update, paintTypeController.update)
+  .delete(paintTypeController.deleteItem)
 
-export const colorRoute = Router
+export const paintTypeRoute = Router
