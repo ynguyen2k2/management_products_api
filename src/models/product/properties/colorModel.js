@@ -1,13 +1,13 @@
 import { pool } from '~/config/postgresql'
 import Joi from 'joi'
 
-const PAINT_TYPE_COLLECTION_SCHEMA = Joi.object({
+const COLOR_PRODUCT_COLLECTION_SCHEMA = Joi.object({
   value: Joi.string().required().min(3).max(100).trim().strict(),
   colorCode: Joi.string().min(3).trim()
 })
 
 const validateBeforeCreate = async (data) => {
-  return await PAINT_TYPE_COLLECTION_SCHEMA.validateAsync(data, {
+  return await COLOR_PRODUCT_COLLECTION_SCHEMA.validateAsync(data, {
     abortEarly: false
   })
 }
@@ -21,10 +21,10 @@ const createNew = async (data) => {
     console.log('🚀 ~ file: productModel.js:23 ~ validData:', validData)
 
     const createNewQuery = `
-        INSERT INTO painttype(vallue) values($1,$2) RETURNING  *;`
+        INSERT INTO colorproduct(vallue,colorcode) values($1,$2) RETURNING  *;`
     const client = await pool.connect()
-    const { value } = validData
-    const result = await client.query(createNewQuery, [value])
+    const { value, colorCode } = validData
+    const result = await client.query(createNewQuery, [value, colorCode])
 
     console.log('🚀 ~ file: productModel.js:31 ~ result:', result)
 
@@ -37,7 +37,7 @@ const createNew = async (data) => {
 
 const findOneById = async (id) => {
   try {
-    const getDetailsQuery = 'SELECT * FROM painttype WHERE id = $1 '
+    const getDetailsQuery = 'SELECT * FROM colorproduct WHERE id = $1 '
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
@@ -52,7 +52,7 @@ const findOneById = async (id) => {
 const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
-    const getDetailsQuery = 'SELECT * FROM  painttype WHERE id = $1 '
+    const getDetailsQuery = 'SELECT * FROM  colorproduct WHERE id = $1 '
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
@@ -66,7 +66,7 @@ const getDetails = async (id) => {
 const getAll = async (limitNumber, offsetPage) => {
   try {
     const getDetailsQuery =
-      'SELECT * FROM  painttype order by id limit = $1 offset = $2'
+      'SELECT * FROM  colorproduct order by id limit = $1 offset = $2'
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [
@@ -80,7 +80,7 @@ const getAll = async (limitNumber, offsetPage) => {
   }
 }
 
-const update = async (id, updateData) => {
+const update = async (colorId, updateData) => {
   try {
     Object.keys(updateData).forEach((fieldName) => {
       if (INVALID_UPDATE_FIELDS.includes(fieldName))
@@ -90,10 +90,10 @@ const update = async (id, updateData) => {
     const fieldNames = Object.keys(updateData)
     const fieldValue = Object.values(updateData)
 
-    const updateQuery = `UPDATE painttype SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1 RETURNING * ;`
+    const updateQuery = `UPDATE colorproduct SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 2)).join(', ')}) WHERE id = $1 RETURNING * ;`
     const client = await pool.connect()
 
-    const result = await client.query(updateQuery, [id, ...fieldValue])
+    const result = await client.query(updateQuery, [colorId, ...fieldValue])
     client.release()
     return result.rows[0]
   } catch (error) {
@@ -103,7 +103,7 @@ const update = async (id, updateData) => {
 
 const deleteOneById = async (id) => {
   try {
-    const deleteQuery = 'DELETE FROM painttype WHERE id = $1 RETURNING *'
+    const deleteQuery = 'DELETE FROM colorproduct WHERE id = $1 RETURNING *'
     const client = await pool.connect()
     const result = await client.query(deleteQuery, [id])
     client.release()
@@ -113,7 +113,7 @@ const deleteOneById = async (id) => {
   }
 }
 
-export const paintTypeModel = {
+export const colorModel = {
   createNew,
   findOneById,
   getDetails,
