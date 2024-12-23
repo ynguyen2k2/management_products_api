@@ -5,6 +5,7 @@ import { validatePaginationParams } from '~/validations/product/validatePaginati
 import { componentRoute } from './component/componentRoutes'
 
 const Router = express.Router()
+Router.use('/:skuId/components', componentRoute)
 
 Router.route('/')
   .get(validatePaginationParams.validateQuery, productSKUController.getAll)
@@ -14,6 +15,4 @@ Router.route('/:id')
   // update product
   .patch(productSKUValidation.update, productSKUController.update)
   .delete(productSKUController.deleteItem)
-Router.use('/:skuId/components', componentRoute)
-
 export const productSKURoute = Router

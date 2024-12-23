@@ -4,7 +4,10 @@ const createNew = async (req, res, next) => {
   try {
     const createComponent = await componentService.createNew(req.body)
 
-    // console.log("🚀 ~ file: productController.js:7 ~ req.body:", req.body)
+    console.log(
+      '🚀 ~ file: productController.js:7 ~ req.body:',
+      createComponent
+    )
     res.status(StatusCodes.CREATED).json(createComponent)
   } catch (error) {
     next(error)
@@ -14,7 +17,7 @@ const createNew = async (req, res, next) => {
 const getDetails = async (req, res, next) => {
   try {
     const componentId = req.params.id
-
+    const productSkuId = req.params.skuId
     const component = await componentService.getDetails(componentId)
     res.status(StatusCodes.OK).json(component)
   } catch (error) {
@@ -30,13 +33,16 @@ const getAll = async (req, res, next) => {
     const filter = req.query.filter || 'id'
     const offset = (page - 1) * limit
 
-    console.log('🚀 ~ file: componentController.js:35 ~ id:', req.params.skuId)
+    const productSkuId = req.params.skuId
+
+    console.log('🚀 ~ file: componentController.js:35 ~ id:', productSkuId)
 
     const components = await componentService.getAll({
       limit,
       offset,
       sort,
-      filter
+      filter,
+      productSkuId
     })
     res.status(StatusCodes.OK).json(components)
   } catch (error) {

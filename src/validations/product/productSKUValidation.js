@@ -12,7 +12,7 @@ const createNew = async (req, res, next) => {
   try {
     await conrectCondition.validateAsync(req.body, { abortEarly: false })
 
-    // console.log('🚀 ~ file: productValidation.js:36 ~ req.body:', req.body)
+    console.log('🚀 ~ file: productValidation.js:36 ~ req.body:', req.body)
     next()
   } catch (error) {
     next(

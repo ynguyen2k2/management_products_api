@@ -31,9 +31,6 @@ const INVALID_UPDATE_FIELDS = ['id', 'createdAt']
 const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
-
-    console.log('🚀 ~ file: productModel.js:23 ~ validData:', validData)
-
     const createNewQuery = `
         INSERT INTO products(name,description,cover,slug) values($1,$2,$3,$4) RETURNING  *;`
     const client = await pool.connect()

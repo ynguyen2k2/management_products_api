@@ -3,7 +3,7 @@ import { componentController } from '~/controller/product/component/componentCon
 import { componentValidation } from '~/validations/product/component/componentValidation'
 import { validatePaginationParams } from '~/validations/product/validatePaginationParams'
 
-const Router = express.Router()
+const Router = express.Router({ mergeParams: true })
 
 Router.route('/')
   .get(validatePaginationParams.validateQuery, componentController.getAll)

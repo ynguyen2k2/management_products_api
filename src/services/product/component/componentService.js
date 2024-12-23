@@ -1,6 +1,7 @@
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { componentModel } from '~/models/product/component/componentModel'
+import { productSKUModel } from '~/models/product/productSKUModel'
 
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
@@ -30,14 +31,20 @@ const getDetails = async (componentId) => {
   }
 }
 
-const getAll = async ({ limit, offset, sort, filter }) => {
+const getAll = async ({ limit, offset, sort, filter, productSkuId }) => {
   // eslint-disable-next-line no-useless-catch
   try {
+    const productSku = productSKUModel.findOneById(productSkuId)
+
+    if (!productSku)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'SKU is not found')
+
     const components = await componentModel.getAll({
       limit,
       offset,
       sort,
-      filter
+      filter,
+      productSkuId
     })
     return components
   } catch (error) {

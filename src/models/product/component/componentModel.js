@@ -78,11 +78,11 @@ const getDetails = async (id) => {
   }
 }
 
-const getAll = async ({ limit, offset, sort, filter }) => {
+const getAll = async ({ limit, offset, sort, filter, productSkuId }) => {
   try {
-    const values = [limit, offset]
+    const values = [limit, offset, productSkuId]
 
-    const getDetailsQuery = `SELECT * FROM  components order by ${filter} ${sort} limit  $1 offset  $2`
+    const getDetailsQuery = `SELECT * FROM  components  where productid = $3 order by ${filter} ${sort}  limit  $1 offset $2`
     const client = await pool.connect()
     const result = await client.query(getDetailsQuery, values)
 
