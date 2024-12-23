@@ -2,6 +2,7 @@ import express from 'express'
 import { productSKUController } from '~/controller/product/productSKUController'
 import { productSKUValidation } from '~/validations/product/productSKUValidation'
 import { validatePaginationParams } from '~/validations/product/validatePaginationParams'
+import { componentRoute } from './component/componentRoutes'
 
 const Router = express.Router()
 
@@ -13,5 +14,6 @@ Router.route('/:id')
   // update product
   .patch(productSKUValidation.update, productSKUController.update)
   .delete(productSKUController.deleteItem)
+Router.use('/:skuId/components', componentRoute)
 
 export const productSKURoute = Router

@@ -3,6 +3,8 @@ import morgan from 'morgan'
 import { env } from '~/config/enviroments'
 import { APIs_V1 } from '~/routes/v1'
 import { initDBTable, dropAllTables } from '~/db/table/index'
+import swaggerUI from 'swagger-ui-express'
+// import swaggerDocument from
 const START_SERVER = () => {
   const app = express()
 

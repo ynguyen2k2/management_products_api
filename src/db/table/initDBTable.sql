@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS "colorproduct" (
     "id" serial PRIMARY KEY,
     "value"  varchar(50) not null,
-    "colorcode" varchar(50) not null
+    "colorcode" varchar(50) not null,
     "createdat" timestamp with time zone default current_timestamp,
     "updatedat" timestamp default null
    
@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS "colorproduct" (
 
 CREATE TABLE IF NOT EXISTS "painttype" (
     "id" serial PRIMARY KEY,
-    "value" VARCHAR(50) NOT NULL
+    "value" VARCHAR(50) NOT NULL,
     "createdat" timestamp with time zone default current_timestamp,
     "updatedat" timestamp default null
 );
 
 CREATE TABLE IF NOT EXISTS "rawmaterial" (
     "id" serial PRIMARY KEY,
-    "value" VARCHAR(50) NOT NULL
+    "value" VARCHAR(50) NOT NULL,
     "createdat" timestamp with time zone default current_timestamp,
     "updatedat" timestamp default null
 );
@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS "productssku" (
 
 CREATE TABLE IF NOT EXISTS "components" (
     "id" serial PRIMARY KEY,
+    "name" varchar(50) NOT NULL,
     "productid" integer,
     "colorid" integer,
     "rawmaterialid" integer,
