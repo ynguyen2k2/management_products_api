@@ -1,24 +1,19 @@
 import { pool } from '~/config/postgresql'
 import Joi from 'joi'
 
-const COMPOENENT_COLLECTION_SCHEMA = Joi.object({
-  name: Joi.string().required().min(3).max(100).trim().strict().messages({
-    'any.required': 'Name is required',
-    'string.empty': 'Name is not allowed to be empty',
-    'string.min': 'Name length must be at least 3 characters long',
-    'string.max':
-      'Name length must be less than or equal to 50 characters long',
-    'string.trim': 'Name must not have leading or trailing whitespaces'
-  }),
+const QUATITY_COMPOENENT_COLLECTION_SCHEMA = Joi.object({
+  componentId: Joi.number().required().min(1),
   productId: Joi.number().required().min(1),
-  colorId: Joi.number().required().min(1),
-  rawMaterialId: Joi.number().required().min(1),
+  orderItemId: Joi.number().required().min(1),
+  departmentId: Joi.number().required().min(1),
+  machineid: Joi.number().min(1),
+  operationId: Joi.number().min(1),
   quatity: Joi.number().required().min(1),
-  dimension: Joi.string().min(1).max(50)
+  userimportId: Joi.number().required().min(1)
 })
 
 const validateBeforeCreate = async (data) => {
-  return await COMPOENENT_COLLECTION_SCHEMA.validateAsync(data, {
+  return await QUATITY_COMPOENENT_COLLECTION_SCHEMA.validateAsync(data, {
     abortEarly: false
   })
 }
@@ -32,17 +27,27 @@ const createNew = async (productSkuId, data) => {
     console.log('🚀 ~ file: productModel.js:23 ~ validData:', validData)
 
     const createNewQuery = `
-        INSERT INTO components(name,productid,colorId,rawMaterialId,quatity,dimension) values($1,$2,$3,$4,$5,$6) RETURNING  *;`
+        INSERT INTO quatitycomponent(componentId,productid,orderItemId,departmentId,machineid,operationId,quatity, userimportId) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING  *;`
     const client = await pool.connect()
-    const { name, productId, colorId, rawMaterialId, quatity, dimension } =
-      validData
-    const result = await client.query(createNewQuery, [
-      name,
+    const {
+      componentId,
       productId,
-      colorId,
-      rawMaterialId,
+      orderItemId,
+      departmentId,
+      machineId,
+      operationId,
       quatity,
-      dimension
+      userimportId
+    } = validData
+    const result = await client.query(createNewQuery, [
+      componentId,
+      productId,
+      orderItemId,
+      departmentId,
+      machineId,
+      operationId,
+      quatity,
+      userimportId
     ])
     client.release()
     return result.rows[0] || null
@@ -54,14 +59,14 @@ const createNew = async (productSkuId, data) => {
 const findOneById = async (id, productSkuId) => {
   try {
     const getDetailsQuery =
-      'SELECT * FROM components WHERE id = $1 and productid = $2'
+      'SELECT * FROM quatitycomponent WHERE id = $1 and productid = $2'
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id, productSkuId])
 
     client.release()
     return result.rows[0] || null
-  } catch (error) { 
+  } catch (error) {
     throw new Error(error)
   }
 }
@@ -69,7 +74,7 @@ const findOneById = async (id, productSkuId) => {
 const getDetails = async (id, productSkuId) => {
   try {
     const getDetailsQuery =
-      'SELECT * FROM  components WHERE id = $1 and productid = $2 '
+      'SELECT * FROM  quatitycomponent WHERE id = $1 and productid = $2 '
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id, productSkuId])
@@ -84,7 +89,7 @@ const getAll = async ({ limit, offset, sort, filter, productSkuId }) => {
   try {
     const values = [limit, offset, productSkuId]
 
-    const getDetailsQuery = `SELECT * FROM  components  where productid = $3 order by ${filter} ${sort}  limit  $1 offset $2`
+    const getDetailsQuery = `SELECT * FROM  quatitycomponent  where productid = $3 order by ${filter} ${sort}  limit  $1 offset $2`
     const client = await pool.connect()
     const result = await client.query(getDetailsQuery, values)
 
@@ -105,7 +110,7 @@ const update = async (id, productSkuId, updateData) => {
     const fieldNames = Object.keys(updateData)
     const fieldValue = Object.values(updateData)
 
-    const updateQuery = `UPDATE components SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 3)).join(', ')}) WHERE id = $1 and productid = $2 RETURNING * ;`
+    const updateQuery = `UPDATE quatitycomponent SET (${fieldNames.join(',')}) = (${fieldNames.map((_, i) => '$' + (i + 3)).join(', ')}) WHERE id = $1 and productid = $2 RETURNING * ;`
     const client = await pool.connect()
 
     const result = await client.query(updateQuery, [
@@ -124,7 +129,7 @@ const update = async (id, productSkuId, updateData) => {
 const deleteOneById = async (id, productSkuId) => {
   try {
     const deleteQuery =
-      'DELETE FROM components WHERE id = $1 and productid = $2 RETURNING *'
+      'DELETE FROM quatitycomponent WHERE id = $1 and productid = $2 RETURNING *'
     const client = await pool.connect()
     const result = await client.query(deleteQuery, [id, productSkuId])
 
@@ -136,7 +141,7 @@ const deleteOneById = async (id, productSkuId) => {
   }
 }
 
-export const componentModel = {
+export const quatityComponentModel = {
   createNew,
   findOneById,
   getDetails,
