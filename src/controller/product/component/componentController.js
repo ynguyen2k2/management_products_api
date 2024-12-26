@@ -2,7 +2,11 @@ import { StatusCodes } from 'http-status-codes'
 import { componentService } from '~/services/product/component/componentService'
 const createNew = async (req, res, next) => {
   try {
-    const createComponent = await componentService.createNew(req.body)
+    const productSkuId = req.params.skuId
+    const createComponent = await componentService.createNew(
+      productSkuId,
+      req.body
+    )
 
     console.log(
       '🚀 ~ file: productController.js:7 ~ req.body:',
@@ -18,7 +22,10 @@ const getDetails = async (req, res, next) => {
   try {
     const componentId = req.params.id
     const productSkuId = req.params.skuId
-    const component = await componentService.getDetails(componentId)
+    const component = await componentService.getDetails(
+      componentId,
+      productSkuId
+    )
     res.status(StatusCodes.OK).json(component)
   } catch (error) {
     next(error)
@@ -53,7 +60,13 @@ const getAll = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const componentId = req.params.id
-    const component = await componentService.update(componentId, req.body)
+    const productSkuId = req.params.skuId
+
+    const component = await componentService.update(
+      componentId,
+      productSkuId,
+      req.body
+    )
     res.status(StatusCodes.OK).json(component)
   } catch (error) {
     next(error)
@@ -63,7 +76,9 @@ const update = async (req, res, next) => {
 const deleteItem = async (req, res, next) => {
   try {
     const componentId = req.params.id
-    const result = await componentService.deleteItem(componentId)
+    const productSkuId = req.params.skuId
+
+    const result = await componentService.deleteItem(componentId, productSkuId)
     res.status(StatusCodes.OK).json(result)
   } catch (error) {
     next(error)
