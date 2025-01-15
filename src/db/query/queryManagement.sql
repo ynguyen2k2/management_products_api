@@ -21,3 +21,4 @@ select p.id, p.productid, c.values as color, painttype.value as paintType  from 
 GROUP BY p.id,c.values, painttype.value;
 
 
+ +

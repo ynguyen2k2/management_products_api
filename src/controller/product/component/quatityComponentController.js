@@ -1,14 +1,14 @@
 import { StatusCodes } from 'http-status-codes'
-import { quatityComponentService } from '~/services/product/component/quatityComponentService'
+import { quantityComponentService } from '~/services/product/component/quantityComponentService'
 const createNew = async (req, res, next) => {
   try {
     const productSkuId = req.params.skuId
-    const createQuatityComponent = await quatityComponentService.createNew(
+    const createQuantityComponent = await quantityComponentService.createNew(
       productSkuId,
       req.body
     )
 
-    res.status(StatusCodes.CREATED).json(createQuatityComponent)
+    res.status(StatusCodes.CREATED).json(createQuantityComponent)
   } catch (error) {
     next(error)
   }
@@ -16,13 +16,13 @@ const createNew = async (req, res, next) => {
 // get all productSKU of product
 const getDetails = async (req, res, next) => {
   try {
-    const quatityComponentId = req.params.id
+    const quantityComponentId = req.params.id
     const productSkuId = req.params.skuId
-    const quatityComponent = await quatityComponentService.getDetails(
-      quatityComponentId,
+    const quantityComponent = await quantityComponentService.getDetails(
+      quantityComponentId,
       productSkuId
     )
-    res.status(StatusCodes.OK).json(quatityComponent)
+    res.status(StatusCodes.OK).json(quantityComponent)
   } catch (error) {
     next(error)
   }
@@ -38,14 +38,14 @@ const getAll = async (req, res, next) => {
 
     const productSkuId = req.params.skuId
 
-    const quatityComponents = await quatityComponentService.getAll({
+    const quantityComponents = await quantityComponentService.getAll({
       limit,
       offset,
       sort,
       filter,
       productSkuId
     })
-    res.status(StatusCodes.OK).json(quatityComponents)
+    res.status(StatusCodes.OK).json(quantityComponents)
   } catch (error) {
     next(error)
   }
@@ -53,15 +53,15 @@ const getAll = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const quatityComponentId = req.params.id
+    const quantityComponentId = req.params.id
     const productSkuId = req.params.skuId
 
-    const quatityComponent = await quatityComponentService.update(
-      quatityComponentId,
+    const quantityComponent = await quantityComponentService.update(
+      quantityComponentId,
       productSkuId,
       req.body
     )
-    res.status(StatusCodes.OK).json(quatityComponent)
+    res.status(StatusCodes.OK).json(quantityComponent)
   } catch (error) {
     next(error)
   }
@@ -69,11 +69,11 @@ const update = async (req, res, next) => {
 
 const deleteItem = async (req, res, next) => {
   try {
-    const quatityComponentId = req.params.id
+    const quantityComponentId = req.params.id
     const productSkuId = req.params.skuId
 
-    const result = await quatityComponentService.deleteItem(
-      quatityComponentId,
+    const result = await quantityComponentService.deleteItem(
+      quantityComponentId,
       productSkuId
     )
     res.status(StatusCodes.OK).json(result)
@@ -82,7 +82,7 @@ const deleteItem = async (req, res, next) => {
   }
 }
 
-export const quatityComponentController = {
+export const quantityComponentController = {
   createNew,
   getDetails,
   getAll,

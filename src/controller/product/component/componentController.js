@@ -7,11 +7,6 @@ const createNew = async (req, res, next) => {
       productSkuId,
       req.body
     )
-
-    console.log(
-      '🚀 ~ file: productController.js:7 ~ req.body:',
-      createComponent
-    )
     res.status(StatusCodes.CREATED).json(createComponent)
   } catch (error) {
     next(error)
@@ -42,7 +37,7 @@ const getAll = async (req, res, next) => {
 
     const productSkuId = req.params.skuId
 
-    console.log('🚀 ~ file: componentController.js:35 ~ id:', productSkuId)
+
 
     const components = await componentService.getAll({
       limit,

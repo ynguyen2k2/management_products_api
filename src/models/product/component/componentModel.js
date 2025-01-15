@@ -13,7 +13,7 @@ const COMPOENENT_COLLECTION_SCHEMA = Joi.object({
   productId: Joi.number().required().min(1),
   colorId: Joi.number().required().min(1),
   rawMaterialId: Joi.number().required().min(1),
-  quatity: Joi.number().required().min(1),
+  quantity: Joi.number().required().min(1),
   dimension: Joi.string().min(1).max(50)
 })
 
@@ -32,16 +32,16 @@ const createNew = async (productSkuId, data) => {
     console.log('🚀 ~ file: productModel.js:23 ~ validData:', validData)
 
     const createNewQuery = `
-        INSERT INTO components(name,productid,colorId,rawMaterialId,quatity,dimension) values($1,$2,$3,$4,$5,$6) RETURNING  *;`
+        INSERT INTO components(name,productid,colorId,rawMaterialId,quantity,dimension) values($1,$2,$3,$4,$5,$6) RETURNING  *;`
     const client = await pool.connect()
-    const { name, productId, colorId, rawMaterialId, quatity, dimension } =
+    const { name, productId, colorId, rawMaterialId, quantity, dimension } =
       validData
     const result = await client.query(createNewQuery, [
       name,
       productId,
       colorId,
       rawMaterialId,
-      quatity,
+      quantity,
       dimension
     ])
     client.release()

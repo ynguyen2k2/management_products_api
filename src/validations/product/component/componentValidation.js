@@ -8,7 +8,7 @@ const createNew = async (req, res, next) => {
     productId: Joi.number().min(1),
     colorId: Joi.number().min(1),
     rawMaterialId: Joi.number().min(1),
-    quatity: Joi.number().min(1),
+    quantity: Joi.number().min(1),
     dimension: Joi.string().min(1).max(50).trim()
   })
   try {
@@ -29,7 +29,7 @@ const update = async (req, res, next) => {
     productId: Joi.number().min(1),
     colorId: Joi.number().min(1),
     rawMaterialId: Joi.number().min(1),
-    quatity: Joi.number().min(1),
+    quantity: Joi.number().min(1),
     dimension: Joi.string().min(1).max(50).trim()
   })
   try {

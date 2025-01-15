@@ -1,7 +1,7 @@
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { productSKUModel } from '~/models/product/productSKUModel'
-import { quatityComponentModel } from '~/models/product/component/quatityComponent'
+import { quantityComponentModel } from '~/models/product/component/quantityCompoentModel'
 
 const createNew = async (productSkuId, reqBody) => {
   // eslint-disable-next-line no-useless-catch
@@ -15,11 +15,11 @@ const createNew = async (productSkuId, reqBody) => {
     }
     // console.log("🚀 ~ file: productService.js:10 ~ newProduct:", newProduct)
 
-    const createQuatityComponent = await quatityComponentModel.createNew(
+    const createQuantityComponent = await quantityComponentModel.createNew(
       productSkuId,
       newComponent
     )
-    return createQuatityComponent
+    return createQuantityComponent
   } catch (error) {
     throw error
   }
@@ -32,15 +32,15 @@ const getDetails = async (componentId, productSkuId) => {
     if (!productSku)
       throw new ApiError(StatusCodes.NOT_FOUND, 'SKU is not found')
 
-    const quatityComponent = await quatityComponentModel.getDetails(
+    const quantityComponent = await quantityComponentModel.getDetails(
       componentId,
       productSkuId,
       productSkuId
     )
 
-    if (!quatityComponent)
+    if (!quantityComponent)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Component not found!')
-    return quatityComponent
+    return quantityComponent
   } catch (error) {
     throw error
   }
@@ -53,14 +53,14 @@ const getAll = async ({ limit, offset, sort, filter, productSkuId }) => {
     if (!productSku)
       throw new ApiError(StatusCodes.NOT_FOUND, 'SKU is not found')
 
-    const quatityComponents = await quatityComponentModel.getAll({
+    const quantityComponents = await quantityComponentModel.getAll({
       limit,
       offset,
       sort,
       filter,
       productSkuId
     })
-    return quatityComponents
+    return quantityComponents
   } catch (error) {
     throw error
   }
@@ -76,14 +76,14 @@ const update = async (componentId, productSkuId, reqBody) => {
       ...reqBody,
       updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
     }
-    const quatityComponent = await quatityComponentModel.update(
+    const quantityComponent = await quantityComponentModel.update(
       componentId,
       productSkuId,
       updateData
     )
-    if (!quatityComponent)
+    if (!quantityComponent)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Component Not Found!')
-    return quatityComponent
+    return quantityComponent
   } catch (error) {
     throw error
   }
@@ -96,23 +96,23 @@ const deleteItem = async (componentId, productSkuId) => {
     if (!productSku)
       throw new ApiError(StatusCodes.NOT_FOUND, 'SKU is not found')
 
-    const targetQuatityComponent =
-      await quatityComponentModel.findOneById(componentId)
+    const targetQuantityComponent =
+      await quantityComponentModel.findOneById(componentId)
 
-    if (!targetQuatityComponent)
+    if (!targetQuantityComponent)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Component Not Found!')
 
-    await quatityComponentModel.deleteOneById(componentId, productSkuId)
+    await quantityComponentModel.deleteOneById(componentId, productSkuId)
     return {
       deleteResult:
-        'Quatity Components and all its properties are deleted successfully'
+        'Quantity Components and all its properties are deleted successfully'
     }
   } catch (error) {
     throw error
   }
 }
 
-export const quatityComponentService = {
+export const quantityComponentService = {
   createNew,
   getDetails,
   getAll,

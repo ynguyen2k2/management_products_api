@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS "components" (
     "productid" integer,
     "colorid" integer,
     "rawmaterialid" integer,
-    "quatity" integer,
+    "quantity" integer,
     "dimension" varchar,
     "createdat" timestamp
     with
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS "operations" (
         "updatedat" timestamp default null
 );
 
-CREATE TABLE IF NOT EXISTS "quatitycomponent" (
+CREATE TABLE IF NOT EXISTS "quantitycomponent" (
     "id" serial PRIMARY KEY,
     "componentid" integer,
     "productid" integer,
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS "quatitycomponent" (
     "departmentid" integer,
     "machineid" integer,
     "operationid" integer,
-    "quatity" integer,
+    "quantity" integer,
     "userimport" integer,
     "dayimport" timestamp,
     "createdat" timestamp
@@ -130,8 +130,8 @@ CREATE TABLE IF NOT EXISTS "stepcomponent" (
     "step" integer,
     "note" varchar,
     "cycletime" integer,
-    "quatitycycletime" integer,
-    "workerquatity" integer,
+    "quantitycycletime" integer,
+    "workerquantity" integer,
     "createdat" timestamp
     with
         time zone default current_timestamp,
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS "orderitems" (
     "id" serial PRIMARY KEY,
     "orderdetailid" integer,
     "productid" integer,
-    "quatity" integer,
+    "quantity" integer,
     "createdat" timestamp
     with
         time zone default current_timestamp,
@@ -177,25 +177,25 @@ ADD FOREIGN KEY ("colorid") REFERENCES "colorproduct" ("id") ON DELETE CASCADE O
 ALTER TABLE "components"
 ADD FOREIGN KEY ("rawmaterialid") REFERENCES "rawmaterial" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("componentid") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("productid") REFERENCES "productssku" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("orderitemsid") REFERENCES "orderitems" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("departmentid") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("machineid") REFERENCES "machines" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("operationid") REFERENCES "operations" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE "quatitycomponent"
+ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("userimport") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "stepcomponent"
