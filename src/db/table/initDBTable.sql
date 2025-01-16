@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS "departments" (
 CREATE TABLE IF NOT EXISTS "machines" (
     "id" serial PRIMARY KEY,
     "name" varchar,
+    "departmentid" INTEGER
     "createdat" timestamp
     with
         time zone default current_timestamp,
@@ -98,6 +99,8 @@ CREATE TABLE IF NOT EXISTS "machines" (
 CREATE TABLE IF NOT EXISTS "operations" (
     "id" serial PRIMARY KEY,
     "name" varchar,
+    "departmentid" INTEGER,
+    "machineid" INTEGER,
     "createdat" timestamp
     with
         time zone default current_timestamp,
@@ -176,6 +179,16 @@ ADD FOREIGN KEY ("colorid") REFERENCES "colorproduct" ("id") ON DELETE CASCADE O
 
 ALTER TABLE "components"
 ADD FOREIGN KEY ("rawmaterialid") REFERENCES "rawmaterial" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+ALTER TABLE "machines"
+ADD FOREIGN KEY ("departmentid") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "operations"
+ADD FOREIGN KEY ("departmentid") REFERENCES "departments" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE "operations"
+ADD FOREIGN KEY ("machineid") REFERENCES "machines" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "quantitycomponent"
 ADD FOREIGN KEY ("componentid") REFERENCES "components" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
