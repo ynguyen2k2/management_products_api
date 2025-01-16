@@ -87,5 +87,4 @@ INSERT INTO operations(name,machineid,departmentid) values('cha min go', 9,1);
 
 
 
-
  +
