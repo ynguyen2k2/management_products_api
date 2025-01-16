@@ -65,7 +65,25 @@ INSERT INTO departments(name) values("FORM");
 INSERT INTO departments(name) values("SAND");
 
 -- insert machines 
-INSERT INTO machines(name) values();
+INSERT INTO machines(name,departmentid) values("bao 2 mat", 1);
+INSERT INTO machines(name,departmentid) values("cua rong", 1);
+INSERT INTO machines(name,departmentid) values("may cat khuc", 1);
+INSERT INTO machines(name,departmentid) values("cnc 4 head", 2);
+INSERT INTO machines(name,departmentid) values("cnc 3 head", 2);
+INSERT INTO machines(name,departmentid) values("cnc 5 head", 2);
+INSERT INTO machines(name,departmentid) values("cha nham m5", 3);
+INSERT INTO machines(name,departmentid) values("cha nham tabilue", 3);
+INSERT INTO machines(name,departmentid) values("cha nham choi ", 3);
+-- insert operations
+INSERT INTO operations(name,machineid,departmentid) values("bao 2 mat go", 1,1);
+INSERT INTO operations(name,machineid,departmentid) values("cua thanh go thanh nhieu thanh", 2,1);
+INSERT INTO operations(name,machineid,departmentid) values("cat cac thanh go nhieu khuc", 3,1);
+INSERT INTO operations(name,machineid,departmentid) values("cnc 4 head dung de khac", 4,1);
+INSERT INTO operations(name,machineid,departmentid) values("cnc 3 head dung de khac", 5,1);
+INSERT INTO operations(name,machineid,departmentid) values("cnc 5 head dung de khac", 6,1);
+INSERT INTO operations(name,machineid,departmentid) values("cha min go", 7,1);
+INSERT INTO operations(name,machineid,departmentid) values("cha min go", 8,1);
+INSERT INTO operations(name,machineid,departmentid) values("cha min go", 9,1);
 
 
 

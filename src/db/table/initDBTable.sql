@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS "departments" (
 CREATE TABLE IF NOT EXISTS "machines" (
     "id" serial PRIMARY KEY,
     "name" varchar,
-    "departmentid" INTEGER
+    "departmentid" INTEGER,
     "createdat" timestamp
     with
         time zone default current_timestamp,
