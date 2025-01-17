@@ -19,13 +19,45 @@ const createNew = async (reqBody) => {
 const getDetails = async (departmentId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const department = await departmentModel.getDetails(departmentId)
-    const result = cloneDeep(department)
-    const departments = result
+    const result = await departmentModel.getDetails(departmentId)
+    const department = cloneDeep(result)
 
-    if (!department)
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Color not found!')
-    return departmentv
+    const departments = department.reduce((pre, cur) => {
+      const existDepartmentLength = pre.filter(
+        (el) => el.id === cur.departmentid
+      ).length
+      if (!existDepartmentLength) {
+        pre.push({
+          id: cur.departmentid,
+          name: cur.departmentname,
+          machines: [
+            {
+              id: cur.machineid,
+              name: cur.machinename,
+              operations: [{ id: cur.operationid, name: cur.operationname }]
+            }
+          ],
+          createdAt: cur.createdat,
+          updatedAtL: cur.updatedat
+        })
+      } else {
+        {
+          const machine = {
+            id: cur.machineid,
+            name: cur.machines,
+            operations: [{ id: cur.operationid, name: cur.operationname }]
+          }
+          pre.forEach((el) => {
+            if (el.id === cur.departmentid) el.machines.push(machine)
+          })
+        }
+      }
+      return pre
+    }, [])
+
+    if (!departments)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Department not found!')
+    return departments
   } catch (error) {
     throw error
   }
@@ -34,12 +66,51 @@ const getDetails = async (departmentId) => {
 const getAll = async ({ limit, offset, sort, filter }) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const departments = await departmentModel.getAll({
+    const result = await departmentModel.getAll({
       limit,
       offset,
       sort,
       filter
     })
+
+    const departmentsClone = cloneDeep(result)
+
+    const departments = departmentsClone.reduce((pre, cur) => {
+      const existDepartmentLength = pre.filter(
+        (el) => el.id === cur.departmentid
+      ).length
+      if (!existDepartmentLength) {
+        pre.push({
+          id: cur.departmentid,
+          name: cur.departmentname,
+          machines: [
+            {
+              id: cur.machineid,
+              name: cur.machinename,
+              operations: [{ id: cur.operationid, name: cur.operationname }]
+            }
+          ],
+          createdAt: cur.createdat,
+          updatedAtL: cur.updatedat
+        })
+      } else {
+        {
+          const machine = {
+            id: cur.machineid,
+            name: cur.machines,
+            operations: [{ id: cur.operationid, name: cur.operationname }]
+          }
+          pre.forEach((el) => {
+            if (el.id === cur.departmentid) el.machines.push(machine)
+          })
+        }
+      }
+      return pre
+    }, [])
+
+    if (!departments)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Department not found!')
+
     return departments
   } catch (error) {
     throw error
