@@ -47,12 +47,13 @@ const findOneById = async (id) => {
 const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
-    const getDetailsQuery = 'SELECT * FROM  departments WHERE id = $1 '
+    const getDetailsQuery =
+      'SELECT m.name as machines, m.id as machineId, d.name as departmentName,d.id as departmentId , o.name as operations, o.id as operationId , d.createdat, d.updatedat FROM  departments as d INNER JOIN (machines as m INNER JOIN operations as o ON o.machineid = m.id) on m.departmentid = d.id  WHERE d.id = $1'
     const client = await pool.connect()
-
     const result = await client.query(getDetailsQuery, [id])
+    // console.log(result.rows)
     client.release()
-    return result.rows[0] || null
+    return result.rows || null
   } catch (error) {
     throw new Error(error)
   }
@@ -60,7 +61,7 @@ const getDetails = async (id) => {
 
 const getAll = async ({ limit, offset, sort, filter }) => {
   try {
-    const getDetailsQuery = `SELECT * FROM  departments order by ${filter} ${sort} limit  $1 offset  $2`
+    const getDetailsQuery = `SELECT departments.id,departments.name,departments.createdat,departments.updatedat FROM  departments order by ${filter} ${sort} limit  $1 offset  $2`
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [limit, offset])

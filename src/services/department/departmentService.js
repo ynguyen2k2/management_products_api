@@ -1,6 +1,7 @@
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { departmentModel } from '~/models/department/departmentModel'
+import { cloneDeep } from 'lodash'
 
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
@@ -19,10 +20,12 @@ const getDetails = async (departmentId) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const department = await departmentModel.getDetails(departmentId)
+    const result = cloneDeep(department)
+    const departments = result
 
     if (!department)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Color not found!')
-    return department
+    return departmentv
   } catch (error) {
     throw error
   }

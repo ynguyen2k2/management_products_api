@@ -7,4 +7,13 @@
 -- GROUP BY p.id,c.values, painttype.value;
 
 
-select  m.id ,m.name, d.name from departments as d,machines as m group by m.departmentid ;
+-- select m.name as machines, d.name as departments, o.name as operations from departments as d
+-- INNER JOIN  machines as m on m.departmentid = d.id
+-- inner join operations as o on o.machineid = m.id;
+
+
+
+select m.name as machines, d.name as departmentName, o.name as operations from departments as d
+INNER JOIN ( machines as m 
+inner join operations as o on o.machineid = m.id) on m.departmentid = d.id
+where d.id = 1;
