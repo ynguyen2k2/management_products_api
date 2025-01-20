@@ -21,7 +21,7 @@ const getDetails = async (operationId) => {
     const operation = await operationModel.getDetails(operationId)
 
     if (!operation)
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Color not found!')
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Operation is not found!')
     return operation
   } catch (error) {
     throw error
@@ -45,6 +45,9 @@ const getAll = async ({ limit, offset, sort, filter }) => {
 const update = async (operationId, reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
+    const targetOperation = await operationModel.findOneById(operationId)
+    if (!targetOperation)
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Operation is Not Found!')
     const updateData = {
       ...reqBody,
       updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
@@ -61,7 +64,7 @@ const deleteItem = async (operationId) => {
   try {
     const targetOperation = await operationModel.findOneById(operationId)
     if (!targetOperation)
-      throw new ApiError(StatusCodes.NOT_FOUND, 'Product Not Found!')
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Operation is Not Found!')
     await operationModel.deleteOneById(operationId)
     return {
       deleteResult: 'Operation and all its properties are deleted successfully'

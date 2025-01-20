@@ -6,7 +6,7 @@ import { validatePaginationParams } from '~/validations/product/validatePaginati
 import { operationRoute } from '../operations/operationRoute'
 
 const Router = express.Router()
-Router.use('/:machineId/operations', operationRoute)
+Router.use('/operations', operationRoute)
 Router.route('/')
   .get(validatePaginationParams.validateQuery, machineController.getAll)
   .post(machineValidation.createNew, machineController.createNew)

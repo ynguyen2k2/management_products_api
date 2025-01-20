@@ -48,7 +48,7 @@ const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
     const getDetailsQuery =
-      'SELECT m.name as machinename, m.id as machineId, d.name as departmentName,d.id as departmentId , o.name as operationname, o.id as operationId , d.createdat, d.updatedat FROM  departments as d INNER JOIN (machines as m INNER JOIN operations as o ON o.machineid = m.id) on m.departmentid = d.id  WHERE d.id = $1'
+      'SELECT m.name as machinename, m.id as machineId, d.name as departmentName,d.id as departmentId , o.name as operationname, o.id as operationId , d.createdat, d.updatedat FROM  departments as d INNER JOIN (machines as m INNER JOIN operations as o ON o.machineid = m.id) on m.departmentid = d.id  WHERE d.id = $1 order by m.id asc '
     const client = await pool.connect()
     const result = await client.query(getDetailsQuery, [id])
     // console.log(result.rows)
@@ -61,13 +61,12 @@ const getDetails = async (id) => {
 
 const getAll = async ({ limit, offset, sort, filter }) => {
   try {
-    const getDetailsQuery = `SELECT m.name as machinename, m.id as machineId, d.name as departmentName,
-          d.id as departmentId , o.name as operationname, o.id as operationId , d.createdat, d.updatedat FROM  departments as d 
-	        INNER JOIN (machines as m INNER JOIN operations as o ON o.machineid = m.id) 
-	        on m.departmentid = d.id order by d.${filter} ${sort} limit  $1 offset  $2`
+    const getDetailsQuery = `SELECT departments.id,departments.name,departments.createdat,departments.updatedat FROM  departments order by ${filter} ${sort} limit  $1 offset  $2`
+    //limit  $1 offset  $2
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [limit, offset])
+
     client.release()
     return result.rows || null
   } catch (error) {
