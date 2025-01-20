@@ -4,7 +4,6 @@ const createNew = async (req, res, next) => {
   try {
     const createProduct = await productService.createNew(req.body)
 
-    // console.log("🚀 ~ file: productController.js:7 ~ req.body:", req.body)
     res.status(StatusCodes.CREATED).json(createProduct)
   } catch (error) {
     next(error)

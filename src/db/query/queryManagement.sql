@@ -1,13 +1,13 @@
-select * from productattributes;
+
 
 
 
 -- insert products
- INSERT INTO products(name,description,cover,slug) values("Ghe Suyt 01","description-product","cover-product","ghe-suyt-01") RETURNING  *;`
- INSERT INTO products(name,description,cover,slug) values("Ghe Suyt 02","description-product","cover-product","ghe-suyt-02") RETURNING  *;`
- INSERT INTO products(name,description,cover,slug) values("Ghe Suyt 03","description-product","cover-product","ghe-suyt-03") RETURNING  *;`
- INSERT INTO products(name,description,cover,slug) values("Ghe Suyt 04","description-product","cover-product","ghe-suyt-04") RETURNING  *;`
- INSERT INTO products(name,description,cover,slug) values("Ghe Suyt 05","description-product","cover-product","ghe-suyt-05") RETURNING  *;`
+ INSERT INTO products(name,description,cover,slug) values('Ghe Suyt 01','description-product','cover-product','ghe-suyt-01');
+ INSERT INTO products(name,description,cover,slug) values('Ghe Suyt 02','description-product','cover-product','ghe-suyt-02');
+ INSERT INTO products(name,description,cover,slug) values('Ghe Suyt 03','description-product','cover-product','ghe-suyt-03');
+ INSERT INTO products(name,description,cover,slug) values('Ghe Suyt 04','description-product','cover-product','ghe-suyt-04');
+ INSERT INTO products(name,description,cover,slug) values('Ghe Suyt 05','description-product','cover-product','ghe-suyt-05');
 
 -- insert properties such as color painttype rawmaterial
 insert into colorproduct (value,colorcode) values('clear varnish 02','444');
@@ -20,43 +20,43 @@ insert into painttype (value) values('nc');
 insert into rawmaterial (value) values('bew');
 insert into rawmaterial (value) values('mdf');
 insert into rawmaterial (value) values('wdf');
-select * from colorproduct;
+
 
  -- insert sku
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,1,1,"BRED124BEW111") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,2,1,"BRED124BEW112") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,3,1,"BRED124BEW113") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,1,1,"BRED125BEW111") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,2,1,"BRED125BEW112") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,3,1,"BRED125BEW113");
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,1,1,"BRED126BEW111") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,2,1,"BRED126BEW112") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,3,1,"BRED126BEW113") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,1,1,"BRED127BEW111") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,2,1,"BRED127BEW112") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,3,1,"BRED127BEW113") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,1,1,"BRED128BEW111") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,2,1,"BRED128BEW112") ;
-INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,3,1,"BRED128BEW113") ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,1,1,'BRED124BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,2,1,'BRED124BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,3,1,'BRED124BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,1,1,'BRED125BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,2,1,'BRED125BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,3,1,'BRED125BEW113');
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,1,1,'BRED126BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,2,1,'BRED126BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,3,1,'BRED126BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,1,1,'BRED127BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,2,1,'BRED127BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,3,1,'BRED127BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,1,1,'BRED128BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,2,1,'BRED128BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,3,1,'BRED128BEW113') ;
 
-
+select * from productssku;
 -- insert Components productId id productSKU
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",1,1,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",1,2,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",2,1,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",2,2,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",3,1,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",3,2,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",4,1,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",4,2,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",5,1,1,2);
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",5,2,1,2);
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",6,1,1,2);
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",6,2,1,2);
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",7,1,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",7,2,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang dài",8,1,1,2) ;
-INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values("Thanh ngang ngắn",8,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',1,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',1,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',2,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',2,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',3,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',3,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',4,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',4,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',5,1,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',5,2,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',6,1,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',6,2,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',7,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',7,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',8,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',8,2,1,2) ;
 
 
 -- insert department
@@ -85,6 +85,3 @@ INSERT INTO operations(name,machineid,departmentid) values('cha min go', 7,1);
 INSERT INTO operations(name,machineid,departmentid) values('cha min go', 8,1);
 INSERT INTO operations(name,machineid,departmentid) values('cha min go', 9,1);
 
-
-
- +
