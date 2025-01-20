@@ -2,6 +2,7 @@ import { slugify } from '~/utils/formatter'
 import { productModel } from '~/models/product/productModel'
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
+import { cloneDeep } from 'lodash'
 
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
@@ -22,9 +23,49 @@ const createNew = async (reqBody) => {
 const getDetails = async (productId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const product = await productModel.getDetails(productId)
+    const result = await productModel.getDetails(productId)
+    const productClone = cloneDeep(result)
+    const product = productClone.reduce((pre, cur) => {
+      const existProduct = pre.filter((el) => el.id === cur.id)
+      if (!existProduct.length) {
+        pre.push({
+          id: cur.id,
+          name: cur.name,
+          description: cur.description,
+          cover: cur.cover,
+          slug: cur.slug,
+          skus: [
+            {
+              id: cur.skuid,
+              internalCode: cur.internalcode,
+              colorId: cur.colorid,
+              colorName: cur.color,
+              paintTypeId: cur.painttypeid,
+              paintType: cur.painttype
+            }
+          ],
+          createdAt: cur.createdat,
+          updatedAtL: cur.updatedat
+        })
+      } else {
+        {
+          const sku = {
+            id: cur.skuid,
+            internalCode: cur.internalcode,
+            colorId: cur.colorid,
+            colorName: cur.color,
+            paintTypeId: cur.painttypeid,
+            paintType: cur.painttype
+          }
+          pre.forEach((el) => {
+            if (el.id === cur.id) el.skus.push(sku)
+          })
+        }
+      }
 
-    console.log('🚀 ~ file: productService.js:27 ~ product:', product)
+      return pre
+    }, [])
+
     if (!product)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product not found!')
     return product
