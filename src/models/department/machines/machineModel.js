@@ -48,12 +48,13 @@ const findOneById = async (id) => {
 const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
-    const getDetailsQuery = 'SELECT * FROM  machines WHERE id = $1 '
+    const getDetailsQuery =
+      'SELECT m.name as machinename, m.id as machineId, d.id as departmentid, d.name as departmentName ,o.name as operationname, o.id as operationId , m.createdat, m.updatedat FROM  machines as m INNER JOIN operations as o ON o.machineid = m.id INNER JOIN departments as d ON d.id = m.departmentid WHERE m.id = $1 '
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
     client.release()
-    return result.rows[0] || null
+    return result.rows || null
   } catch (error) {
     throw new Error(error)
   }

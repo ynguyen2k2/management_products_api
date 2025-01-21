@@ -7,7 +7,7 @@ import { machineRoute } from './machines/machineRoute'
 
 const Router = express.Router()
 
-Router.use('/:departmendId/machines', machineRoute)
+Router.use('/machines', machineRoute)
 
 Router.route('/')
   .get(validatePaginationParams.validateQuery, departmentController.getAll)

@@ -38,9 +38,40 @@ INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,3,1
 INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,1,1,'BRED128BEW111') ;
 INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,2,1,'BRED128BEW112') ;
 INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,3,1,'BRED128BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,1,1,'BRED124BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,2,1,'BRED124BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(1,3,1,'BRED124BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,1,1,'BRED125BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,2,1,'BRED125BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(2,3,1,'BRED125BEW113');
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,1,1,'BRED126BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,2,1,'BRED126BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(3,3,1,'BRED126BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,1,1,'BRED127BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,2,1,'BRED127BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(4,3,1,'BRED127BEW113') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,1,1,'BRED128BEW111') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,2,1,'BRED128BEW112') ;
+INSERT INTO productssku(productid,colorid,painttypeid,internalcode) values(5,3,1,'BRED128BEW113') ;
 
 select * from productssku;
 -- insert Components productId id productSKU
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',1,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',1,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',2,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',2,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',3,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',3,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',4,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',4,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',5,1,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',5,2,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',6,1,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',6,2,1,2);
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',7,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',7,2,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',8,1,1,2) ;
+INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',8,2,1,2) ;
 INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',1,1,1,2) ;
 INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang ngắn',1,2,1,2) ;
 INSERT INTO components(name,productid,colorId,rawMaterialId,quantity)values('Thanh ngang dài',2,1,1,2) ;
@@ -76,12 +107,18 @@ INSERT INTO machines(name,departmentid) values('cha nham tabilue', 3);
 INSERT INTO machines(name,departmentid) values('cha nham choi ', 3);
 -- insert operations
 INSERT INTO operations(name,machineid,departmentid) values('bao 2 mat go', 1,1);
+INSERT INTO operations(name,machineid,departmentid) values('bao 2 mat go nhan', 1,1);
 INSERT INTO operations(name,machineid,departmentid) values('cua thanh go thanh nhieu thanh', 2,1);
+INSERT INTO operations(name,machineid,departmentid) values('loai bo go thua', 2,1);
 INSERT INTO operations(name,machineid,departmentid) values('cat cac thanh go nhieu khuc', 3,1);
 INSERT INTO operations(name,machineid,departmentid) values('cnc 4 head dung de khac', 4,1);
 INSERT INTO operations(name,machineid,departmentid) values('cnc 3 head dung de khac', 5,1);
 INSERT INTO operations(name,machineid,departmentid) values('cnc 5 head dung de khac', 6,1);
-INSERT INTO operations(name,machineid,departmentid) values('cha min go', 7,1);
-INSERT INTO operations(name,machineid,departmentid) values('cha min go', 8,1);
-INSERT INTO operations(name,machineid,departmentid) values('cha min go', 9,1);
+INSERT INTO operations(name,machineid,departmentid) values('cnc 5 cat mong duong', 6,1);
+INSERT INTO operations(name,machineid,departmentid) values('cha min go', 7,3);
+INSERT INTO operations(name,machineid,departmentid) values('cha min go', 8,3);
+INSERT INTO operations(name,machineid,departmentid) values('cha min go', 9,3);
+INSERT INTO operations(name,machineid,departmentid) values('cha min go', 9,3);
+
+
 
