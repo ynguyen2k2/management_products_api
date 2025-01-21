@@ -78,15 +78,28 @@ const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
 
-    const getDetailsQuery = 'SELECT * FROM products WHERE id = $1 '
+    const getDetailsQuery =
+      'select p.id as id ,p.name as name, ps.id as skuid ,ps.colorid as colorProductId, cl.value as colorProduct,\
+      ps.painttypeid as painttypeId, cm.id as componentId, cm.name as componentName, clc.id as colorComponentId, \
+      clc.value as colorComponent, rm.id as rawMaterialid, rm.value as rawMaterial,pt.value as painttype, \
+      ps.internalcode,ps.createdat as createdat, ps.updatedat as updatedat from productssku as ps \
+      INNER JOIN colorproduct AS cl on cl.id = ps.colorid \
+      INNER JOIN painttype as pt on pt.id = ps.painttypeid \
+      INNER JOIN products as p on p.id = ps.productid \
+      INNER JOIN (components as cm \
+      INNER JOIN colorproduct as clc on clc.id = cm.colorid \
+      INNER JOIN rawmaterial as rm on rm.id = cm.rawmaterialid) on cm.productid = ps.id \
+      where ps.id = $1;'
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
+
     client.release()
-    return result.rows[0] || null
+    return result.rows || null
   } catch (error) {
     throw new Error(error)
   }
+
 }
 const getAll = async ({ limit, offset, sort, filter }) => {
   try {
