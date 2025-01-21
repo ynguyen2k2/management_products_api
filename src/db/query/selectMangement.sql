@@ -32,8 +32,10 @@ inner join (productssku as ps INNER JOIN colorproduct AS cl on cl.id = ps.colori
 							   INNER JOIN painttype as pt on pt.id = ps.painttypeid)on ps.productid = p.id where p.id = 1;
 
 -- query skus 
-select p.id as id ,p.name as name, ps.id as skuid ,ps.colorid as colorProductId, cl.value as colorProduct, ps.painttypeid as painttypeId, cm.id as componentId , 
-cm.name as componentName, clc.id as colorComponentId, clc.value as colorComponent, rm.id as rawMaterialid, rm.value as rawMeterial, pt.value as painttype , ps.internalcode,ps.createdat as createdat, ps.updatedat as updatedat from productssku as ps 
+select p.id as id ,p.name as name, ps.id as skuid ,ps.colorid as colorProductId, cl.value as colorProduct, ps.painttypeid as painttypeId, 
+cm.id as componentId, cm.name as componentName, clc.id as colorComponentId, clc.value as colorComponent, 
+rm.id as rawMaterialid, rm.value as rawMeterial,pt.value as painttype, 
+ps.internalcode,ps.createdat as createdat, ps.updatedat as updatedat from productssku as ps 
 INNER JOIN colorproduct AS cl on cl.id = ps.colorid
 INNER JOIN painttype as pt on pt.id = ps.painttypeid
 INNER JOIN products as p on p.id = ps.productid
