@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
+import { cloneDeep } from 'lodash'
 import { productSKUModel } from '~/models/product/productSKUModel'
 import ApiError from '~/utils/ApiError'
 // import ApiError from '~/utils/ApiError'
@@ -21,11 +22,55 @@ const createNew = async (reqBody) => {
 const getDetails = async (productId) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const product = await productSKUModel.getDetails(productId)
+    const result = await productSKUModel.getDetails(productId)
+    const productSKUClone = cloneDeep(result)
+    const productSKU = productSKUClone.reduce((pre, cur) => {
+      console.log('🚀 ~ file: productSKUService.js:29 ~ cur:', cur)
+      const existProductSKU = pre.filter((el) => el.id === cur.id)
+      if (!existProductSKU.length) {
+        pre.push({
+          id: cur.id,
+          name: cur.name,
+          internalCode: cur.internalcode,
+          colorId: cur.colorid,
+          color: cur.color,
+          paintTypeId: cur.painttypeid,
+          paintType: cur.painttype,
+          components: [
+            {
+              id: cur.componentid,
+              name: cur.componentname,
+              colorId: cur.colorcomponentid,
+              color: cur.colorcomponent,
+              rawMaterialId: cur.rawmaterialid,
+              rawMaterial: cur.rawmaterial
+            }
+          ],
+          createdAt: cur.createdat,
+          updatedAtL: cur.updatedat
+        })
+      } else {
+        {
+          const component = {
+            id: cur.componentid,
+            name: cur.componentname,
+            colorId: cur.colorcomponentid,
+            color: cur.colorcomponent,
+            rawMaterialId: cur.rawmaterialid,
+            rawMaterial: cur.rawmaterial
+          }
+          pre.forEach((el) => {
+            if (el.id === cur.id) el.components.push(component)
+          })
+        }
+      }
 
-    if (!product)
+      return pre
+    }, [])
+
+    if (!productSKU)
       throw new ApiError(StatusCodes.NOT_FOUND, 'Product not found!')
-    return product
+    return productSKU
   } catch (error) {
     throw error
   }
