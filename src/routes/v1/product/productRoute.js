@@ -3,15 +3,17 @@ import { productValidation } from '~/validations/product/productValidation'
 import { productController } from '~/controller/product/productController'
 import { productSKURoute } from './productSKURoute'
 import { validatePaginationParams } from '~/validations/product/validatePaginationParams'
-import { colorRoute } from './properties/colorRoutes'
-import { paintTypeRoute } from './properties/paintTypeRoutes'
-import { rawMaterialRoute } from './properties/rawMaterialRoutes'
+import { colorRoute } from './properties/colorRoute'
+import { paintTypeRoute } from './properties/paintTypeRoute'
+import { rawMaterialRoute } from './properties/rawMaterialRoute'
+import { stepComponentRoute } from './step/stepComponentRoute'
 
 const Router = express.Router()
 Router.use('/sku', productSKURoute)
 Router.use('/color', colorRoute)
 Router.use('/painttype', paintTypeRoute)
 Router.use('/rawmaterial', rawMaterialRoute)
+Router.use('/step', stepComponentRoute)
 
 Router.route('/')
   .get(validatePaginationParams.validateQuery, productController.getAll)

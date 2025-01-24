@@ -122,136 +122,136 @@ INSERT INTO operations(name,machineid,departmentid) values('cha min go', 9,3);
 
 select * from operations;
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,1,1,"",180,1,2)
+values(1,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,2,2,"",180,1,2)
+values(1,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,3,3,"",180,1,2)
+values(1,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,4,4,"",180,1,2)
+values(1,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,5,5,"",180,1,2)
+values(1,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,6,6,"",180,1,2)
+values(1,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,7,7,"",180,1,2)
+values(1,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,8,8,"",180,1,2)
+values(1,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(1,9,9,"",180,1,2)
+values(1,9,9,'',180,1,2);
 
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,1,1,"",180,1,2)
+values(2,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,2,2,"",180,1,2)
+values(2,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,3,3,"",180,1,2)
+values(2,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,4,4,"",180,1,2)
+values(2,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,5,5,"",180,1,2)
+values(2,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,6,6,"",180,1,2)
+values(2,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,7,7,"",180,1,2)
+values(2,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,8,8,"",180,1,2)
+values(2,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(2,9,9,"",180,1,2)
+values(2,9,9,'',180,1,2);
 
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,1,1,"",180,1,2)
+values(3,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,2,2,"",180,1,2)
+values(3,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,3,3,"",180,1,2)
+values(3,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,4,4,"",180,1,2)
+values(3,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,5,5,"",180,1,2)
+values(3,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,6,6,"",180,1,2)
+values(3,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,7,7,"",180,1,2)
+values(3,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,8,8,"",180,1,2)
+values(3,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(3,9,9,"",180,1,2)
+values(3,9,9,'',180,1,2);
 
 
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,1,1,"",180,1,2)
+values(4,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,2,2,"",180,1,2)
+values(4,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,3,3,"",180,1,2)
+values(4,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,4,4,"",180,1,2)
+values(4,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,5,5,"",180,1,2)
+values(4,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,6,6,"",180,1,2)
+values(4,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,7,7,"",180,1,2)
+values(4,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,8,8,"",180,1,2)
+values(4,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(4,9,9,"",180,1,2)
+values(4,9,9,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,1,1,"",180,1,2)
+values(5,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,2,2,"",180,1,2)
+values(5,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,3,3,"",180,1,2)
+values(5,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,4,4,"",180,1,2)
+values(5,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,5,5,"",180,1,2)
+values(5,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,6,6,"",180,1,2)
+values(5,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,7,7,"",180,1,2)
+values(5,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,8,8,"",180,1,2)
+values(5,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(5,9,9,"",180,1,2)
+values(5,9,9,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,1,1,"",180,1,2)
+values(6,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,2,2,"",180,1,2)
+values(6,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,3,3,"",180,1,2)
+values(6,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,4,4,"",180,1,2)
+values(6,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,5,5,"",180,1,2)
+values(6,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,6,6,"",180,1,2)
+values(6,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,7,7,"",180,1,2)
+values(6,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,8,8,"",180,1,2)
+values(6,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(6,9,9,"",180,1,2)
+values(6,9,9,'',180,1,2);
 
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,1,1,"",180,1,2)
+values(7,1,1,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,2,2,"",180,1,2)
+values(7,2,2,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,3,3,"",180,1,2)
+values(7,3,3,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,4,4,"",180,1,2)
+values(7,4,4,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,5,5,"",180,1,2)
+values(7,5,5,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,6,6,"",180,1,2)
+values(7,6,6,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,7,7,"",180,1,2)
+values(7,7,7,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,8,8,"",180,1,2)
+values(7,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
-values(7,9,9,"",180,1,2)
+values(7,9,9,'',180,1,2);
 
 
 
