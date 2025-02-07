@@ -3,11 +3,15 @@ import { stepComponentController } from '~/controller/product/step/stepComponent
 import { stepComponentValidation } from '~/validations/product/step/stepComponentValidation'
 
 import { validatePaginationParams } from '~/validations/product/validatePaginationParams'
+import { validateStepComponentParams } from '~/validations/product/validateStepComponentParams'
 
 const Router = express.Router()
 
 Router.route('/')
-  .get(validatePaginationParams.validateQuery, stepComponentController.getAll)
+  .get(
+    validateStepComponentParams.validateQuery,
+    stepComponentController.getAll
+  )
   .post(stepComponentValidation.createNew, stepComponentController.createNew)
 Router.route('/:id')
   .get(stepComponentController.getDetails)
