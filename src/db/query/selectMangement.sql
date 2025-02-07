@@ -66,5 +66,6 @@ INNER JOIN ( components as c
 	  	    INNER JOIN products as p on p.id = ps.productid) on c.productid = ps.id ) on c.id = sc.componentid
 INNER JOIN (operations as o 
 	  INNER JOIN departments as d ON o.departmentid = d.id
-	  INNER JOIN machines as m ON o.machineid = m.id) ON sc.operationid = o.id ;
+	  INNER JOIN machines as m ON o.machineid = m.id) ON sc.operationid = o.id
+	  where skuid = 4 and componentid = 7 order by skuid desc limit 10 offset 2;
 
