@@ -29,10 +29,12 @@ const getDetails = async (stepComponentId) => {
   }
 }
 
-const getAll = async ({ limit, offset, sort, filter }) => {
+const getAll = async ({ sku, component, limit, offset, sort, filter }) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const stepComponents = await stepComponentModel.getAll({
+      skuId: sku,
+      componentId: component,
       limit,
       offset,
       sort,
