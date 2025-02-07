@@ -30,8 +30,12 @@ const getAll = async (req, res, next) => {
     const sort = req.query.sort || 'asc'
     const filter = req.query.filter || 'id'
     const offset = (page - 1) * limit
+    const sku = parseInt(req.query.sku) || 0
+    const component = parseInt(req.query.component) || 0
 
     const stepComponents = await stepComponentService.getAll({
+      sku,
+      component,
       limit,
       offset,
       sort,
