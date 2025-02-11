@@ -25,11 +25,17 @@ CREATE TABLE IF NOT EXISTS "rawmaterial" (
 
 CREATE TABLE IF NOT EXISTS "users" (
     "id" serial PRIMARY KEY,
-    "firtname" varchar(50) not null,
+    "firstname" varchar(50) not null,
     "lastname" varchar(50) not null,
     "username" varchar(50) not null,
     "email" varchar(50) default null,
-    "role" varchar not null,
+    "role" varchar(50)  default 'user',
+    "password" varchar not null,
+    "passwordConfirm" varchar default null,
+    "passwordChangedAt" timestamp with time zone default NULL,
+    "passwordResetToken"  varchar default null,
+    "passwordResetExpires"  timestamp with time zone default NULL,
+    "_destroy" boolean default false,
     "avatar" varchar,
     "createdat" timestamp with time zone default current_timestamp,
     "updatedat" timestamp default null
