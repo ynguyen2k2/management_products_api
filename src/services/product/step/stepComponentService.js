@@ -71,7 +71,7 @@ const deleteItem = async (stepComponentId) => {
       throw new ApiError(StatusCodes.NOT_FOUND, 'StepComponent Is Not Found!')
     await stepComponentModel.deleteOneById(stepComponentId)
     return {
-      deleteResult: 'Color and all its properties are deleted successfully'
+      deleteResult: 'Step and all its properties are deleted successfully'
     }
   } catch (error) {
     throw error
