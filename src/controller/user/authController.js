@@ -9,7 +9,8 @@ import { userService } from '~/services/user/userService'
 import ApiError from '~/utils/ApiError'
 
 const signToken = (id) => {
-  return jwt.sign({ id: id }, env.JWT_SECRET, {
+  console.log('🚀 ~ JWT_EXPIRES_IN:', env.JWT_EXPIRES_IN)
+  return jwt.sign({ id: id }, env.JWT_SECRET_KEY, {
     expiresIn: env.JWT_EXPIRES_IN
   })
 }
@@ -17,13 +18,13 @@ const signToken = (id) => {
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user.id)
   const cookieOptions = {
-    expires: new Date(Date.now() + env.JWT_COOKIE_EXPIRES_IN),
+    expires: new Date(
+      Date.now() + env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
     httpOnly: true
   }
   if (env.BUILD_MODE === 'production') cookieOptions.secure = true
-
   res.cookie('jwt', token, cookieOptions)
-
   // Remove password output
   user.password = undefined
 
@@ -36,31 +37,51 @@ const createSendToken = (user, statusCode, res) => {
   })
 }
 
-const signup = async (req, res) => {
-  const newUser = await userService.createNew(req.body)
-  // const url = `${req.protocol}://${req.get('host')}/me`
-  // await new Email(newUser, url).sendWelcome()
-  createSendToken(newUser, 201, res)
+const signup = async (req, res, next) => {
+  try {
+    const newUser = await userService.createNew(req.body)
+    // const url = `${req.protocol}://${req.get('host')}/me`
+    // await new Email(newUser, url).sendWelcome()
+    createSendToken(newUser, 201, res)
+  } catch (error) {
+    next(error)
+  }
 }
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body
+  try {
+    const { email, password } = req.body
 
-  // 1) Check if email and password exist
-  if (!email || !password) {
-    next(
-      new ApiError(StatusCodes.NOT_FOUND, 'Please provide email and password!')
-    )
-  }
-  const user = await userService.getUserByEmail(email)
-  // 'pass1234' === '$2a$12$CZXznrsr2y5iSET2CLVmW.vWaEe/n8xXsPe.Gd7oOOUH9G.qdNUK2';
-  // 2) Check if user exits && password is correct
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    next(new ApiError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password'))
-  }
+    console.log('🚀 ~ password:', password)
 
-  // 3) If everything ok, send token to client
-  createSendToken(user, 200, res)
+    console.log('🚀 ~ email:', email)
+
+    // 1) Check if email and password exist
+    if (!email || !password) {
+      next(
+        new ApiError(
+          StatusCodes.NOT_FOUND,
+          'Please provide email and password!'
+        )
+      )
+    }
+    const user = await userService.getUserByEmail(email)
+    // 'pass1234' === '$2a$12$CZXznrsr2y5iSET2CLVmW.vWaEe/n8xXsPe.Gd7oOOUH9G.qdNUK2';
+    // 2) Check if user exits && password is correct
+    if (
+      !user ||
+      !(await authService.correctPassword(password, user.password))
+    ) {
+      next(
+        new ApiError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password')
+      )
+    }
+
+    // 3) If everything ok, send token to client
+    createSendToken(user, 200, res)
+  } catch (error) {
+    next(error)
+  }
 }
 
 const logout = (req, res) => {
@@ -95,10 +116,15 @@ const protect = async (req, res, next) => {
     )
   }
   //2)  Verification token
-  const decoded = await promisify(jwt.verify)(token, env.JWT_SECRET)
+  const decoded = await promisify(jwt.verify)(token, env.JWT_SECRET_KEY)
   // console.log(decoded);
   // 3) Check if user still exists
+  console.log('🚀 ~ decoded.id:', decoded.id)
+
   const currentUser = await userService.getDetails(decoded.id)
+
+  console.log('🚀 ~ currentUser:', currentUser)
+
   if (!currentUser) {
     return next(
       new ApiError(
