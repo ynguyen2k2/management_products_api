@@ -16,7 +16,7 @@ const createNew = async (reqBody) => {
     const newUser = {
       ...reqBody,
       password: passwordUser,
-      passwordConfirm: undefined
+      passwordChangedAt: new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString()
     }
 
     const createUser = await userModel.createNew(newUser)
@@ -30,6 +30,8 @@ const getDetails = async (userId) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const user = await userModel.getDetails(userId)
+
+    console.log('🚀 ~ user 34:', user)
 
     if (!user) throw new ApiError(StatusCodes.NOT_FOUND, 'User not found!')
     return user
@@ -95,6 +97,7 @@ const deleteItem = async (userId) => {
 export const userService = {
   createNew,
   getDetails,
+  getUserByEmail,
   getAll,
   update,
   deleteItem
