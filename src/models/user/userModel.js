@@ -9,7 +9,7 @@ const USER_COLLECTION_SCHEMA = Joi.object({
   role: Joi.string().required().min(3).max(100).trim().strict().default('user'),
   avatar: Joi.string().uri().trim().strict(),
   password: Joi.string().min(8).trim(),
-  passwordChangedAt: Joi.date().timestamp('javascript').default(null),
+  passwordChangedAt: Joi.date().iso().default(Date.now()),
   passwordResetToken: Joi.string().trim().default(null),
   passwordResetExpires: Joi.date().timestamp('javascript').default(null),
   _destroy: Joi.boolean().default(false)
@@ -27,12 +27,19 @@ const createNew = async (data) => {
   try {
     const validData = await validateBeforeCreate(data)
     console.log('🚀 ~ validData:', validData)
-
     const createNewQuery = `
-        INSERT INTO users(firstName,lastName,userName,email,role,avatar,password) values($1,$2,$3,$4,$5,$6,$7) RETURNING  *;`
+        INSERT INTO users(firstName,lastName,userName,email,role,avatar,password,passwordChangedAt) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING  *;`
     const client = await pool.connect()
-    const { firstName, lastName, userName, email, role, avatar, password } =
-      validData
+    const {
+      firstName,
+      lastName,
+      userName,
+      email,
+      role,
+      avatar,
+      password,
+      passwordChangedAt
+    } = validData
 
     const result = await client.query(createNewQuery, [
       firstName,
@@ -41,7 +48,8 @@ const createNew = async (data) => {
       email,
       role,
       avatar,
-      password
+      password,
+      passwordChangedAt
     ])
 
     client.release()
@@ -66,7 +74,7 @@ const findOneById = async (id) => {
 }
 const findOneByEmail = async (field) => {
   try {
-    const query = 'SELECT users.id from USERS WHERE email = $1 '
+    const query = 'SELECT * from USERS WHERE email = $1 '
     const client = await pool.connect()
     const result = await client.query(query, [field])
     client.release()
