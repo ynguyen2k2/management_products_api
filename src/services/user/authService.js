@@ -12,13 +12,17 @@ const timePasswordChange = () => {
 }
 
 const correctPassword = async (candidatePasword, userPassword) => {
-  return await bcrypt.compare(candidatePasword, userPassword)
+  // eslint-disable-next-line no-useless-catch
+  try {
+    return await bcrypt.compare(candidatePasword, userPassword)
+  } catch {
+    throw error
+  }
 }
 
-const changePasswordAfter = async (passwordChangeAt, JWTTimestamp) => {
+const changePasswordAfter = (passwordChangeAt, JWTTimestamp) => {
   if (passwordChangeAt) {
     const changedTimestamp = parseInt(passwordChangeAt.getTime() / 1000, 10)
-
     return JWTTimestamp < changedTimestamp
   }
   return false
@@ -30,24 +34,22 @@ const createPasswordResetToken = () => {
     .createHash('sha256')
     .update(resetToken)
     .digest('hex')
-  const passwordResetExpires = Date.now() + 10 * 60 * 1000
-  return { passwordResetToken, passwordResetExpires }
+  const passwordResetExpires = new Date(
+    Date.now() + 7 * 60 * 60 * 1000 + 10 * 60 * 1000
+  )
+  return { resetToken, passwordResetToken, passwordResetExpires }
 }
 
 const updateAuth = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const { userId, password, passwordResetToken, passwordResetExpires } =
-      reqBody
+    const { userId, ...updateAuthData } = reqBody
     const user = await userModel.findOneById(userId)
     if (!user) throw new ApiError(StatusCodes.NOT_FOUND, 'User not found!')
-    const updateData = {
-      passwordResetToken,
-      passwordResetExpires,
-      password,
-      updatedat: new Date(Date().toLocaleString('vi-VN', {})).toISOString()
-    }
-    const updateAuth = await userModel.updateAuth(userId, updateData)
+
+    // new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString()
+    const updateAuth = await userModel.updateAuth(userId, updateAuthData)
+    delete updateAuth.password
     return updateAuth
   } catch (error) {
     throw error
@@ -61,4 +63,5 @@ export const authService = {
   correctPassword,
   createPasswordResetToken,
   updateAuth
+
 }
