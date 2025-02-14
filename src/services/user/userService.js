@@ -30,9 +30,6 @@ const getDetails = async (userId) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const user = await userModel.getDetails(userId)
-
-    console.log('🚀 ~ user 34:', user)
-
     if (!user) throw new ApiError(StatusCodes.NOT_FOUND, 'User not found!')
     return user
   } catch (error) {
