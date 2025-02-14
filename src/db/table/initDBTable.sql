@@ -151,6 +151,7 @@ CREATE TABLE IF NOT EXISTS "orderdetails" (
     "id" serial PRIMARY KEY,
     "usercreatedid" integer,
     "customerid" integer,
+    "timeexport" timestamp with time zone default null,
     "createdat" timestamp
     with
         time zone default current_timestamp,
@@ -162,6 +163,7 @@ CREATE TABLE IF NOT EXISTS "orderitems" (
     "orderdetailid" integer,
     "productid" integer,
     "quantity" integer,
+    "price" integer,
     "createdat" timestamp
     with
         time zone default current_timestamp,
