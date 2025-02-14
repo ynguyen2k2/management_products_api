@@ -22,6 +22,16 @@ const getDetails = async (req, res, next) => {
     next(error)
   }
 }
+const getMe = async (req, res, next) => {
+  try {
+    console.log('🚀 ~ userController.js:29 ~ req.user:', req.user)
+    req.params.id = req.user.id
+
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
 
 const getAll = async (req, res, next) => {
   try {
@@ -68,5 +78,6 @@ export const userController = {
   getDetails,
   getAll,
   update,
+  getMe,
   deleteItem
 }
