@@ -16,7 +16,7 @@ const createNew = async (req, res, next) => {
       .strict()
       .default('user'),
     avatar: Joi.string().uri().trim(),
-    password: Joi.string().min(3).trim().strict()
+    password: Joi.string().min(8).trim().strict()
   })
   try {
     console.log('🚀 ~ req.body:', typeof req.body.password)
@@ -61,7 +61,48 @@ const update = async (req, res, next) => {
   }
 }
 
+const resetPassword = async (req, res, next) => {
+  const conrectCondition = Joi.object({
+    password: Joi.string().min(8).trim().strict(),
+    passwordConfirm: Joi.string().min(8).trim().strict()
+  })
+  try {
+    await conrectCondition.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true
+    })
+
+    next()
+  } catch (error) {
+    next(
+      new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message)
+    )
+  }
+}
+
+const updatePassword = async (req, res, next) => {
+  const conrectCondition = Joi.object({
+    passwordCurrent: Joi.string().min(8).trim().strict(),
+    newPassword: Joi.string().min(8).trim().strict(),
+    passwordConfirm: Joi.string().min(8).trim().strict()
+  })
+  try {
+    await conrectCondition.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true
+    })
+
+    next()
+  } catch (error) {
+    next(
+      new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message)
+    )
+  }
+}
+
 export const userValidation = {
   createNew,
-  update
+  update,
+  resetPassword,
+  updatePassword
 }
