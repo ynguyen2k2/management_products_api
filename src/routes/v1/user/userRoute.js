@@ -5,17 +5,24 @@ import { validatePaginationParams } from '~/validations/product/validatePaginati
 import { userValidation } from '~/validations/user/userValidation'
 
 const Router = express.Router()
+
 Router.post('/login', authController.login)
 Router.post('/signup', authController.signup)
 Router.get('/logout', authController.logout)
 
 Router.post('/forgotPassword', authController.forgotPassword)
-Router.patch('/resetPassword/:token', authController.resetPassword)
+Router.route('/resetPassword/:token').patch(
+  userValidation.resetPassword,
+  authController.resetPassword
+)
 
 Router.use(authController.protect)
-
-Router.patch('/updateMypassword', authController.updatePassword)
-Router.route('/me').get(userController.getDetails)
+Router.patch(
+  '/updateMypassword',
+  userValidation.updatePassword,
+  authController.updatePassword
+)
+Router.route('/me').get(userController.getMe, userController.getDetails)
 Router.route('/updateMe').patch(userValidation.update, userController.update)
 
 // Router.delete('/deleteMe', userController.deleteItem)
