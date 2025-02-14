@@ -9,7 +9,6 @@ import { userService } from '~/services/user/userService'
 import ApiError from '~/utils/ApiError'
 
 const signToken = (id) => {
-  console.log('🚀 ~ JWT_EXPIRES_IN:', env.JWT_EXPIRES_IN)
   return jwt.sign({ id: id }, env.JWT_SECRET_KEY, {
     expiresIn: env.JWT_EXPIRES_IN
   })
@@ -52,10 +51,6 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
-    console.log('🚀 ~ password:', password)
-
-    console.log('🚀 ~ email:', email)
-
     // 1) Check if email and password exist
     if (!email || !password) {
       next(
@@ -76,6 +71,7 @@ const login = async (req, res, next) => {
         new ApiError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password')
       )
     }
+    delete user.password
 
     // 3) If everything ok, send token to client
     createSendToken(user, 200, res)
@@ -95,58 +91,63 @@ const logout = (req, res) => {
 }
 
 const protect = async (req, res, next) => {
-  // 1) Getting token and check of it's there
-  let token
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1]
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt
-  }
-  // console.log(token);
+  try {
+    let token
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1]
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt
+    }
 
-  if (!token) {
-    return next(
-      new ApiError(
-        StatusCodes.UNAUTHORIZED,
-        'You are not logged in! Please log in to get acees.'
+    if (!token) {
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          'You are not logged in! Please log in to get acees.'
+        )
       )
-    )
-  }
-  //2)  Verification token
-  const decoded = await promisify(jwt.verify)(token, env.JWT_SECRET_KEY)
-  // console.log(decoded);
-  // 3) Check if user still exists
-  console.log('🚀 ~ decoded.id:', decoded.id)
+    }
+    //2)  Verification token
+    const decoded = await promisify(jwt.verify)(token, env.JWT_SECRET_KEY)
 
-  const currentUser = await userService.getDetails(decoded.id)
+    const currentUser = await userService.getDetails(decoded.id)
 
-  console.log('🚀 ~ currentUser:', currentUser)
-
-  if (!currentUser) {
-    return next(
-      new ApiError(
-        StatusCodes.UNAUTHORIZED,
-        'The user belonging to this token dose no longer exist....'
+    if (!currentUser) {
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          'The user belonging to this token dose no longer exist....'
+        )
       )
-    )
+    }
+    delete currentUser.password
+
+    if (
+      authService.changePasswordAfter(
+        currentUser.passwordchangedat,
+        decoded.iat
+      )
+    ) {
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          'User recently changed password! Please log in again'
+        )
+      )
+    }
+
+    // GRANT ACCESS TO PROTECTED ROUTE
+    req.user = currentUser
+    res.locals.user = currentUser
+
+    next()
+  } catch (error) {
+    next(error)
   }
-  // 4) Check if user changed password after the token was issued
-  // if (currentUser.changesPasswordAfter(decoded.iat)) {
-  //   return next(
-  //     new AppError('User recently changed password! Please log in again', 401)
-  //   )
-  // }
-
-  // GRANT ACCESS TO PROTECTED ROUTE
-  req.user = currentUser
-  res.locals.user = currentUser
-
-  next()
 }
-
 const isLoggedIn = async (req, res, next) => {
   try {
     if (req.cookies.jwt) {
@@ -164,7 +165,6 @@ const isLoggedIn = async (req, res, next) => {
       if (authService.changePasswordAfter(decoded.iat)) {
         return next()
       }
-
       // THERE IS A LOGGED IN USER
       res.locals.user = currentUser
       return next()
@@ -192,9 +192,11 @@ const restrictTo = (...roles) => {
 
 const forgotPassword = async (req, res, next) => {
   try {
-    // 1) get user base on POSTed email
+    // 1) get user base on email
     const email = req.body.email
+
     const user = await userService.getUserByEmail(email)
+
     if (!user) {
       return next(
         new ApiError(
@@ -204,23 +206,25 @@ const forgotPassword = async (req, res, next) => {
       )
     }
     // 2) Generate the random reset token
-    const { passwordResetToken, passwordResetExpires } =
+    const { resetToken, passwordResetToken, passwordResetExpires } =
       authService.createPasswordResetToken()
     // 3) Send it to user's email
     await authService.updateAuth({
       userId: user.id,
       passwordResetToken,
-      passwordResetExpires
+      passwordResetExpires: new Date(passwordResetExpires).toISOString()
     })
+
     const resetURL = `${req.protocol}://${req.get(
       'host'
-    )}/api/v1/users/resetPasswrod/${passwordResetToken}`
+    )}/api/v1/users/resetPassword/${resetToken}`
 
     // await new Email(user, resetURL).sendPasswordReset()
     res.status(200).json({
       status: 'success',
       url: resetURL,
-      meessage: 'Token sent to email! '
+      expiresIn: new Date(passwordResetExpires).toISOString(),
+      meessage: 'Token is sent'
     })
   } catch (err) {
     // user.passwordResetToken = undefined
@@ -235,52 +239,81 @@ const forgotPassword = async (req, res, next) => {
   }
 }
 const resetPassword = async (req, res, next) => {
-  const hashedToken = crypto
-    .createHash('sha256')
-    .update(req.params.token)
-    .digest('hex')
+  try {
+    const hashedToken = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex')
 
-  const user = await userModel.findOneByToken(hashedToken)
-  if (!user) {
-    return next(
-      new ApiError(StatusCodes.BAD_REQUEST, 'Token is invalid or has expired')
-    )
+    const user = await userModel.findOneByToken(hashedToken)
+
+    console.log('🚀 ~ authController.js:250 ~ user:', user)
+    if (!user) {
+      return next(
+        new ApiError(StatusCodes.BAD_REQUEST, 'Token is invalid or has expired')
+      )
+    }
+    const password = req.body.password
+    const passwordConfirm = req.body.passwordConfirm
+    if (password !== passwordConfirm) {
+      return next(
+        new ApiError(
+          StatusCodes.BAD_REQUEST,
+          'Password and confirm password do not match'
+        )
+      )
+    }
+    const modifiedPassword = authService.saveModifiedPassword(req.body.password)
+    await authService.updateAuth({
+      userId: user.id,
+      passwordResetToken: undefined,
+      passwordResetExpires: undefined,
+      password: modifiedPassword
+    })
+
+    const token = signToken(user._id)
+    res.status(200).json({
+      status: 'success',
+      token
+    })
+  } catch (error) {
+    next(error)
   }
-  const password = authService.saveModifiedPassword(req.body.password)
-  await authService.updateAuth({
-    userId: user.id,
-    passwordResetToken: undefined,
-    passwordResetExpires: undefined,
-    password
-  })
-
-  const token = signToken(user._id)
-  res.status(200).json({
-    status: 'success',
-    token
-  })
 }
 
 const updatePassword = async (req, res, next) => {
-  // 1) get user from collection
+  try {
+    const user = await userService.getDetails(req.user.id)
+    const { passwordCurrent, newPassword, passwordConfirm } = req.body
 
-  const user = await userService.getDetails(req.user.id)
-
-  // 2) Check if POSTED current password is correct
-  if (!authService.correctPassword(req.body.passwordCurrent, user.password))
-    return next(
-      new ApiError(StatusCodes.UNAUTHORIZED, 'Your current password is wrong.')
+    if (
+      !user.password ||
+      !authService.correctPassword(passwordCurrent, user.password)
     )
-  // 3) If so update password
-  const password = authService.saveModifiedPassword(req.body.password)
-  await authService.updateAuth({
-    userId: user.id,
-    passwordResetToken: undefined,
-    passwordResetExpires: undefined,
-    password
-  })
-  createSendToken(user, 200, res)
-  // 4) Log user in, send JWT
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          'Your current password is wrong.'
+        )
+      )
+    if (newPassword !== passwordConfirm) {
+      return next(
+        new ApiError(
+          StatusCodes.UNAUTHORIZED,
+          'New Password and Confirm Password do not match'
+        )
+      )
+    }
+    const password = authService.saveModifiedPassword(passwordCurrent)
+    await authService.updateAuth({
+      userId: user.id,
+      password,
+      passwordChangedAt: new Date(Date.now() - 1000).toISOString()
+    })
+    createSendToken(user, 200, res)
+  } catch (error) {
+    next(error)
+  }
 }
 
 export const authController = {
