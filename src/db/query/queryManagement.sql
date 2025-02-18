@@ -253,5 +253,48 @@ values(7,8,8,'',180,1,2);
 INSERT INTO stepcomponent(componentid,  operationid,step,note,cycletime,quantitycycletime,workerquantity) 
 values(7,9,9,'',180,1,2);
 
+INSERT INTO users(firstname,lastname,username,email,password,role,_destroy) values('BB','BB NEWTON','bbnewton2020','bbnewton@gm.com',
+'12345678','customer',false); -- id 2
+INSERT INTO users(firstname,lastname,username,email,password,role,_destroy) values('LL','LaLo','lala2020','lalo@gm.com',
+'12345678','customer',false); -- id 3
+INSERT INTO users(firstname,lastname,username,email,password,role,_destroy) values('BP','Betie','Betie2020','Betie@gm.com',
+'12345678','customer',false); -- id 4
+
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(5,2,'2025-03-17T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(6,2,'2025-03-19T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(7,2,'2025-03-20T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(5,3,'2025-03-21T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(6,3,'2025-03-22T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(7,3,'2025-03-23T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(5,4,'2025-03-24T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(6,4,'2025-03-25T06:54:09.317Z')
+INSERT INTO orderdetails(usercreatedid,customerid,timerexport) values(7,4,'2025-03-26T06:54:09.317Z')
 
 
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(2,1,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(2,2,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(2,3,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(3,4,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(3,5,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(3,6,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(4,7,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(4,8,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(4,9,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(5,10,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(5,11,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(5,12,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(6,13,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(6,14,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(6,15,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(7,16,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(7,17,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(7,18,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(8,19,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(8,20,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(8,21,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(9,22,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(9,23,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(9,24,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(10,25,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(10,26,30);
+INSERT INTO orderitems(orderdetailid,productid,quantity) values(10,27,30);
