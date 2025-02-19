@@ -1,6 +1,8 @@
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { orderModel } from '~/models/order/orderModel'
+import { custom } from 'joi'
+import { cloneDeep } from 'lodash'
 
 const createNew = async (reqBody) => {
   // eslint-disable-next-line no-useless-catch
@@ -31,12 +33,30 @@ const getDetails = async (order) => {
 const getAll = async ({ limit, offset, sort, filter }) => {
   // eslint-disable-next-line no-useless-catch
   try {
-    const orders = await orderModel.getAll({
+    const result = await orderModel.getAll({
       limit,
       offset,
       sort,
       filter
     })
+    const ordersClone = cloneDeep(result)
+
+    const orders = ordersClone.reduce((pre, cur) => {
+      const existOrder = pre.filter((el) => el.id === cur.id)
+      if (!existOrder.length)
+        pre.push({
+          id: cur.id,
+          userId: cur.usercreatedid,
+          userName: cur.username,
+          customerId: cur.customerid,
+          customerName: cur.customername,
+          timeExport: cur.timeexport,
+          createdAt: cur.createdat,
+          updatedAt: cur.updatedat
+        })
+      return pre
+    }, [])
+
     return orders
   } catch (error) {
     throw error
