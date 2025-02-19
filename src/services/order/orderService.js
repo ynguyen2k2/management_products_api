@@ -1,7 +1,6 @@
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { orderModel } from '~/models/order/orderModel'
-import { custom } from 'joi'
 import { cloneDeep } from 'lodash'
 
 const createNew = async (reqBody) => {
