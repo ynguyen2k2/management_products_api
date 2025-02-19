@@ -44,7 +44,7 @@ inner join (productssku as ps INNER JOIN colorproduct AS cl on cl.id = ps.colori
 -- query skus 
 select p.id as id ,p.name as name, ps.id as skuid ,ps.colorid as colorProductId, cl.value as colorProduct, ps.painttypeid as painttypeId, 
 cm.id as componentId, cm.name as componentName, clc.id as colorComponentId, clc.value as colorComponent, 
-rm.id as rawMaterialid, rm.value as rawMeterial,pt.value as painttype, 
+rm.id as rawMaterialid, rm.value as rawMeterial,pt.value as painttype,
 ps.internalcode,ps.createdat as createdat, ps.updatedat as updatedat from productssku as ps 
 INNER JOIN colorproduct AS cl on cl.id = ps.colorid
 INNER JOIN painttype as pt on pt.id = ps.painttypeid
@@ -68,4 +68,23 @@ INNER JOIN (operations as o
 	  INNER JOIN departments as d ON o.departmentid = d.id
 	  INNER JOIN machines as m ON o.machineid = m.id) ON sc.operationid = o.id
 	  where skuid = 4 and componentid = 7 order by skuid desc limit 10 offset 2;
+select * from users;
 
+
+select * from orderdetails;
+select od.id as id ,od.usercreatedid,u.username,od.customerid,uc.username as customername, od.timeexport, od.createdat, od.updatedat  from orderdetails as od
+INNER JOIN users as u on u.id =  od.usercreatedid
+INNER JOIN users as uc on uc.id =  od.customerid;
+select * from productssku;
+select * from orderitems;
+
+select oi.id, oi.orderdetailid, oi.productid as skuId,p.name as productname, ps.colorid as colorId, cl.value as colorProduct, ps.painttypeid as painttypeid,pt.value as painttype
+,oi.createdat, oi.updatedat from orderitems as oi
+INNER JOIN ( productssku as ps 
+INNER JOIN colorproduct AS cl on cl.id = ps.colorid
+INNER JOIN painttype as pt on pt.id = ps.painttypeid
+INNER JOIN products as p on p.id = ps.productid
+INNER JOIN (components as cm 
+	  INNER JOIN colorproduct as clc on clc.id = cm.colorid
+	  INNER JOIN rawmaterial as rm on rm.id = cm.rawmaterialid) on cm.productid = ps.id
+) on ps.id = oi.productid ;

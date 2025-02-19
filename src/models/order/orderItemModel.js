@@ -50,7 +50,7 @@ const findOneById = async (id) => {
     throw new Error(error)
   }
 }
-
+// uncomplete
 const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
@@ -75,9 +75,21 @@ const getAll = async ({ limit, offset, sort, filter }) => {
   try {
     const values = [limit, offset]
 
-    const getDetailsQuery = `SELECT * FROM  orderitems order by ${filter} ${sort} limit  $1 offset  $2`
+    const getDetailsQuery = `
+    select oi.id, oi.orderdetailid, oi.productid as skuId,p.name as productname, ps.colorid as colorId, 
+    cl.value as colorProduct, ps.painttypeid as painttypeid,pt.value as painttype,oi.
+    createdat, oi.updatedat from orderitems as oi
+    INNER JOIN ( productssku as ps 
+    INNER JOIN colorproduct AS cl on cl.id = ps.colorid
+    INNER JOIN painttype as pt on pt.id = ps.painttypeid
+    INNER JOIN products as p on p.id = ps.productid
+    INNER JOIN (components as cm 
+    INNER JOIN colorproduct as clc on clc.id = cm.colorid
+    INNER JOIN rawmaterial as rm on rm.id = cm.rawmaterialid) on cm.productid = ps.id) 
+    on ps.id = oi.productid; 
+    `
     const client = await pool.connect()
-    const result = await client.query(getDetailsQuery, values)
+    const result = await client.query(getDetailsQuery)
 
     client.release()
     return result.rows || null

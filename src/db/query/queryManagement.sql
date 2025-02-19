@@ -298,3 +298,7 @@ INSERT INTO orderitems(orderdetailid,productid,quantity) values(9,24,30);
 INSERT INTO orderitems(orderdetailid,productid,quantity) values(10,25,30);
 INSERT INTO orderitems(orderdetailid,productid,quantity) values(10,26,30);
 INSERT INTO orderitems(orderdetailid,productid,quantity) values(10,27,30);
+
+
+INSERT INTO quantitycomponent(componentid,productid,orderitemid,departmentid,machineid,operationid,quantiy,userimport)
+values();
