@@ -48,16 +48,17 @@ const findOneById = async (id) => {
     throw new Error(error)
   }
 }
-
+// uncomplete
 const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
     const getDetailsQuery =
-      'select p.id as id ,p.name as name, ps.id as skuid ,ps.colorid as colorId, cl.value as color, \
-      ps.painttypeid as painttypeId, pt.value as painttype , ps.internalcode , p.description as description,\
-      p.cover as cover, p.slug as slug,p.createdat as createdat, p.updatedat as updatedat from products as p \
-      inner join (productssku as ps INNER JOIN colorproduct AS cl on cl.id = ps.colorid \
-      INNER JOIN painttype as pt on pt.id = ps.painttypeid)on ps.productid = p.id where p.id = $1 '
+      `
+    select od.id as id ,od.usercreatedid,u.username,od.customerid,uc.username, 
+    od.timeexport, od.createdat, od.updatedat  from orderdetails as od
+    INNER JOIN users as u on u.id =  od.usercreatedid
+    INNER JOIN users as uc on uc.id =  od.customerid;
+      `
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])
@@ -73,9 +74,14 @@ const getAll = async ({ limit, offset, sort, filter }) => {
   try {
     const values = [limit, offset]
 
-    const getDetailsQuery = `SELECT * FROM  orderdetails order by ${filter} ${sort} limit  $1 offset  $2`
+    const getDetailsQuery = `
+     select od.id as id ,od.usercreatedid,u.username,od.customerid,uc.username as customername, 
+    od.timeexport, od.createdat, od.updatedat  from orderdetails as od
+    INNER JOIN users as u on u.id =  od.usercreatedid
+    INNER JOIN users as uc on uc.id =  od.customerid;
+ `
     const client = await pool.connect()
-    const result = await client.query(getDetailsQuery, values)
+    const result = await client.query(getDetailsQuery)
 
     client.release()
     return result.rows || null
