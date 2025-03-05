@@ -42,7 +42,7 @@ const getAll = async ({ limit, offset, sort, filter }) => {
 
     const orders = ordersClone.reduce((pre, cur) => {
       const existOrder = pre.filter((el) => el.id === cur.id)
-      if (!existOrder.length)
+      if (!existOrder.length) {
         pre.push({
           id: cur.id,
           userId: cur.usercreatedid,
@@ -50,9 +50,33 @@ const getAll = async ({ limit, offset, sort, filter }) => {
           customerId: cur.customerid,
           customerName: cur.customername,
           timeExport: cur.timeexport,
+          products: [
+            {
+              id: cur.skuid,
+              name: cur.productname,
+              color: cur.colorproduct,
+              paintType: cur.painttype,
+              quantity: cur.quantity
+            }
+          ],
           createdAt: cur.createdat,
           updatedAt: cur.updatedat
         })
+      } else {
+        {
+          const product = {
+            id: cur.skuid,
+            name: cur.productname,
+            color: cur.colorproduct,
+            paintType: cur.painttype,
+            quantity: cur.quantity
+          }
+
+          pre.forEach((el) => {
+            if (el.id === cur.id) el.products.push(product)
+          })
+        }
+      }
       return pre
     }, [])
 

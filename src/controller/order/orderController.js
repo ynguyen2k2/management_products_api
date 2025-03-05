@@ -30,7 +30,10 @@ const getAll = async (req, res, next) => {
     const sort = req.query.sort || 'asc'
     const filter = req.query.filter || 'id'
     const offset = (page - 1) * limit
+    const user = req.user
 
+    console.log('🚀 ~ orderController.js:35 ~ user:', user)
+    
     const orders = await orderService.getAll({
       limit,
       offset,

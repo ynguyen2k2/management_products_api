@@ -74,12 +74,27 @@ const getAll = async ({ limit, offset, sort, filter }) => {
   try {
     const values = [limit, offset]
 
+    console.log('🚀 ~ orderModel.js:77 ~ values:', values)
+
     const getDetailsQuery = `
-     select od.id as id ,od.usercreatedid,u.username,od.customerid,uc.username as customername, 
-    od.timeexport, od.createdat, od.updatedat  from orderdetails as od
+    select od.id as id,
+    oi.productid as skuId,p.name as productname, ps.colorid as colorId, 
+    cl.value as colorProduct, ps.painttypeid as painttypeid,pt.value as painttype, oi.quantity as quantity,
+    od.usercreatedid,u.username,od.customerid,uc.username as customername, od.timeexport, od.createdat, od.updatedat  
+    from orderdetails as od
     INNER JOIN users as u on u.id =  od.usercreatedid
-    INNER JOIN users as uc on uc.id =  od.customerid;
- `
+    INNER JOIN users as uc on uc.id =  od.customerid 
+    INNER JOIN (orderitems as oi
+    INNER JOIN ( productssku as ps 
+    INNER JOIN colorproduct AS cl on cl.id = ps.colorid
+    INNER JOIN painttype as pt on pt.id = ps.painttypeid
+    INNER JOIN products as p on p.id = ps.productid
+    INNER JOIN (components as cm 
+    INNER JOIN colorproduct as clc on clc.id = cm.colorid
+    INNER JOIN rawmaterial as rm on rm.id = cm.rawmaterialid) on cm.productid = ps.id
+    ) on ps.id = oi.productid
+    ) on oi.orderdetailid=od.id
+    `
     const client = await pool.connect()
     const result = await client.query(getDetailsQuery)
 
@@ -88,6 +103,7 @@ const getAll = async ({ limit, offset, sort, filter }) => {
   } catch (error) {
     throw new Error(error)
   }
+
 }
 
 const update = async (id, updateData) => {

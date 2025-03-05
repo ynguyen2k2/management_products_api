@@ -54,12 +54,7 @@ const findOneById = async (id) => {
 const getDetails = async (id) => {
   try {
     // console.log('🚀 ~ file: productModel.js:43 ~ id:', id)
-    const getDetailsQuery =
-      'select p.id as id ,p.name as name, ps.id as skuid ,ps.colorid as colorId, cl.value as color, \
-      ps.painttypeid as painttypeId, pt.value as painttype , ps.internalcode , p.description as description,\
-      p.cover as cover, p.slug as slug,p.createdat as createdat, p.updatedat as updatedat from products as p \
-      inner join (productssku as ps INNER JOIN colorproduct AS cl on cl.id = ps.colorid \
-      INNER JOIN painttype as pt on pt.id = ps.painttypeid)on ps.productid = p.id where p.id = $1 '
+    const getDetailsQuery = ''
     const client = await pool.connect()
 
     const result = await client.query(getDetailsQuery, [id])

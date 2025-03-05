@@ -4,6 +4,7 @@ import { productRoute } from './product/productRoute'
 import { departmentRoute } from './department/departmentRoute'
 import { userRoute } from './user/userRoute'
 import { orderRoute } from '../order/orderRoute'
+import { authController } from '~/controller/user/authController'
 const Router = express.Router()
 
 Router.get('/status', (req, res) => {
@@ -14,8 +15,9 @@ Router.get('/status', (req, res) => {
 })
 
 //Products APi
+Router.use('/users', userRoute)
+Router.use(authController.protect)
 Router.use('/products', productRoute)
 Router.use('/departments', departmentRoute)
-Router.use('/users', userRoute)
 Router.use('/orders', orderRoute)
 export const APIs_V1 = Router
